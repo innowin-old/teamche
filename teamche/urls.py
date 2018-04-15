@@ -27,6 +27,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('stores/', include('stores.urls')),
     path('admin/', admin.site.urls),
-    path('docs/', include_docs_urls(title='Teamche'))
+    path('docs/', include_docs_urls(title='Teamche')),
     path('api-auth/', include('rest_framework.urls'))
 ]
