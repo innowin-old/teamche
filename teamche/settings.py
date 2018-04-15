@@ -125,8 +125,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_DIR = os.path.join(SENDFILE_ROOT, 'media')
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 JWT_AUTH = {
