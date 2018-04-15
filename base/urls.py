@@ -8,8 +8,8 @@ from .views import (
 )
 
 router = SimpleRouter()
-router.register(r'comments', CommentViewSet)
-router.register(r'sms', SmsViewSet)
+router.register(r'comments', CommentViewSet, 'base-comments')
+router.register(r'sms', SmsViewSet, 'base-sms')
 
 urlpatterns = [
     url(r'^', include(router.urls))
