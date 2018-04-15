@@ -24,6 +24,7 @@ urlpatterns = [
     path('verify/', base_views.code_verify),
     path('api-token-auth/', obtain_jwt_token),
     path('api-token-verify/', verify_jwt_token),
+    path('base/', include('base.urls')),
     path('users/', include('users.urls')),
     path('stores/', include('stores.urls')),
     path('admin/', admin.site.urls),
