@@ -125,6 +125,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_DIR = os.path.join(SENDFILE_ROOT, 'media')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
