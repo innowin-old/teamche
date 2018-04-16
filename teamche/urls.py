@@ -22,7 +22,6 @@ from rest_framework.documentation import include_docs_urls
 urlpatterns = [
     path('login/', base_views.login),
     path('verify/', base_views.code_verify),
-    path('api-token-auth/', obtain_jwt_token),
     path('api-token-verify/', verify_jwt_token),
     path('base/', include('base.urls')),
     path('users/', include('users.urls')),
