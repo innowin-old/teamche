@@ -14,3 +14,8 @@ class Store(Base):
     phone_number = models.CharField(max_length=11, blank=True, null=True)
     latitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
     longitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
+
+
+class StoreVisit(Base):
+    store_visit_related_store = models.ForeignKey(Store, related_name='store_visit_related_store', on_delete=models.CASCADE)
+    store_visit_related_user = models.ForeignKey(User, related_name='store_visit_related_user', on_delete=models.CASCADE)

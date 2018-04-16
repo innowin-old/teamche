@@ -3,7 +3,8 @@ from django.http import JsonResponse
 from .models import Sms, Comment
 from .serializers import (
     SmsSerializer,
-    CommentSerializer
+    CommentSerializer,
+    RateSerializer
 )
 from users.models import User
 from django.views.decorators.csrf import csrf_exempt
@@ -33,6 +34,16 @@ class CommentViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         return CommentSerializer
+
+
+class RateViewSet(ModelViewSet):
+
+    def get_queryset(self):
+        queryset = Rate.objects.all()
+        return queryset
+
+    def get_serializer_class(self):
+        return RateSerializer
 
 
 @csrf_exempt

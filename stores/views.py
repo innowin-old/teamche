@@ -5,12 +5,14 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .models import (
     StoreCategory,
-    Store
+    Store,
+    StoreVisit
 )
 
 from .serializers import (
     StoreCategorySerializer,
-    StoreSerializer
+    StoreSerializer,
+    StoreVisitSerializer
 )
 
 
@@ -34,3 +36,13 @@ class StoreViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         return StoreSerializer
+
+
+class StoreVisitViewSet(ModelViewSet):
+
+    def get_queryset(self):
+        queryset = StoreVisit.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return StoreVisitSerializer
