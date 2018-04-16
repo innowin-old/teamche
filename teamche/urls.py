@@ -18,6 +18,7 @@ from django.urls import path, include
 from base import views as base_views
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 from rest_framework.documentation import include_docs_urls
+from rest_framework.permissions import AllowAny
 
 urlpatterns = [
     path('login/', base_views.login),
@@ -27,6 +28,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('stores/', include('stores.urls')),
     path('admin/', admin.site.urls),
-    path('docs/', include_docs_urls(title='Teamche')),
+    path('docs/', include_docs_urls(title='Teamche', permission_classes=[AllowAny])),
     path('api-auth/', include('rest_framework.urls'))
 ]
