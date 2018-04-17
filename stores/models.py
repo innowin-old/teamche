@@ -1,10 +1,16 @@
 from django.db import models
+from django.db.models.signals import post_save
+
 from base.models import Base
 from users.models import User
+from base.signals import update_cache
 
 
 class StoreCategory(Base):
     title = models.CharField(max_length=50)
+
+post_save.connect(update_cache, sender=StoreCategory)
+
 
 class Store(Base):
     title = models.CharField(max_length=100)
@@ -16,7 +22,11 @@ class Store(Base):
     latitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
     longitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
 
+post_save.connect(update_cache, sender=Store)
+
 
 class StoreVisit(Base):
     store_visit_related_store = models.ForeignKey(Store, related_name='store_visit_related_store', on_delete=models.CASCADE)
     store_visit_related_user = models.ForeignKey(User, related_name='store_visit_related_user', on_delete=models.CASCADE)
+
+post_save.connect(update_cache, sender=StoreVisit)
