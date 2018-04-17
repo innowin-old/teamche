@@ -15,6 +15,8 @@ class Base(models.Model):
     updated_time = models.DateTimeField(db_index=True, default=now, blank=True)
     delete_flag = models.BooleanField(db_index=True, default=False, help_text="Boolean")
 
+post_save.connect(update_cache, sender=Base)
+
 
 class Sms(Base):
     phone_number = models.CharField(max_length=11)
