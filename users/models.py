@@ -6,8 +6,8 @@ from base.signals import update_cache
 
 class User(AbstractUser):
     GENDER_CHOICES = (
-      ('Female', 'female'),
-      ('Male', 'male')
+      ('female', 'Female'),
+      ('male', 'Male')
     )
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='male')
 
