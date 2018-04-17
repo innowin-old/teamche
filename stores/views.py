@@ -37,6 +37,9 @@ class StoreViewSet(ModelViewSet):
     def get_serializer_class(self):
         return StoreSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(store_related_user=self.request.user)
+
 
 class StoreVisitViewSet(ModelViewSet):
 
@@ -46,3 +49,6 @@ class StoreVisitViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         return StoreVisitSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(store_visit_related_user=self.request.user)

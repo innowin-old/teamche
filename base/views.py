@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Sms, Comment
+from .models import Sms, Comment, Rate, Favorite, Discount, Report
 from .serializers import (
     SmsSerializer,
     CommentSerializer,
-    RateSerializer
+    RateSerializer,
+    FavoriteSerializer,
+    DiscountSerializer,
+    ReportSerializer
 )
 from users.models import User
 from django.views.decorators.csrf import csrf_exempt
@@ -19,7 +22,7 @@ class SmsViewSet(ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        queryset = Sms.objects.all()
+        queryset = Sms.objects.filter(delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
@@ -29,21 +32,66 @@ class CommentViewSet(ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        queryset = Comment.objects.all()
+        queryset = Comment.objects.filter(delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
         return CommentSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(comment_related_user=self.request.user)
+
 
 class RateViewSet(ModelViewSet):
 
     def get_queryset(self):
-        queryset = Rate.objects.all()
+        queryset = Rate.objects.filter(delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
         return RateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(rate_related_user=self.request.user)
+
+
+class FavoriteViewSet(ModelViewSet):
+
+    def get_queryset(self):
+        queryset = Favorite.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return FavoriteSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(favorite_related_user=self.request.user)
+
+
+class DiscountViewSet(ModelViewSet):
+
+    def get_queryset(self):
+        queryset = Discount.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return DiscountSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(discount_related_user=self.request.user)
+
+
+class ReportViewSet(ModelViewSet):
+
+    def get_queryset(self):
+        queryset = Report.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return ReportSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(report_related_user=self.request.user)
 
 
 @csrf_exempt
