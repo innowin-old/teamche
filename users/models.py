@@ -11,4 +11,4 @@ class User(AbstractUser):
     )
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='male')
 
-post_save.connect(update_cache, sender=User)
+# post_save.connect(update_cache, sender=User)
