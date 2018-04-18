@@ -17,7 +17,6 @@ from .serializers import (
 
 
 class StoreCategoryViewSet(ModelViewSet):
-    permission_classes = [AllowAny]
 
     def get_queryset(self):
         queryset = StoreCategory.objects.filter(delete_flag=False)
@@ -28,7 +27,6 @@ class StoreCategoryViewSet(ModelViewSet):
 
 
 class StoreViewSet(ModelViewSet):
-    permission_classes = [AllowAny]
 
     def get_queryset(self):
         queryset = Store.objects.filter(delete_flag=False)
