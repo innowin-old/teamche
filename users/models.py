@@ -10,6 +10,12 @@ class User(AbstractUser, Base):
       ('female', 'Female'),
       ('male', 'Male')
     )
+    MEMBER_TYPE_CHOICES = (
+      ('normal', 'Normal'),
+      ('specific', 'Specific'),
+      ('gold', 'Gold')
+    )
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='male')
+    type = models.CharField(max_length=8, choices=MEMBER_TYPE_CHOICES, default='normal')
 
 post_save.connect(update_cache, sender=User)
