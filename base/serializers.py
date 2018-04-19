@@ -1,4 +1,5 @@
-from rest_framework.serializers import ModelSerializer, CharField
+from django.http import JsonResponse
+from rest_framework.serializers import ModelSerializer, CharField, SerializerMethodField
 from .models import (
         Base,
         Sms,
@@ -61,16 +62,27 @@ class RateSerializer(BaseSerializer):
 
 class StoreDetailSerializer(BaseSerializer):
     class Meta:
-        model = Base
+        model = Store
         fields = '__all__'
 
 
 class FavoriteListSerializer(BaseSerializer):
-    favorite_related_parent = StoreDetailSerializer()
+    favorite_related_parent = SerializerMethodField()
+    favorite_related_user = UserDetailSerializer()
 
     class Meta:
         model = Favorite
         fields = '__all__'
+
+    def get_favorite_related_parent(self, obj):
+        if Store.objects.filter(pk=obj.favorite_related_parent_id).count() > 0:
+            store = Store.objects.get(pk=obj.favorite_related_parent_id)
+            serializer = StoreDetailSerializer(store)
+            return serializer.data
+        else:
+            instance = Base.objects.filter(pk=obj.favorite_related_parent_id)[0]
+            serializer = BaseSerializer(instance)
+            return serializer.data
 
 
 class FavoriteSerializer(BaseSerializer):
