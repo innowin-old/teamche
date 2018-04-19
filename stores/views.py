@@ -17,6 +17,7 @@ from .serializers import (
 
 
 class StoreCategoryViewSet(ModelViewSet):
+    filter_fields = ['title']
 
     def get_queryset(self):
         queryset = StoreCategory.objects.filter(delete_flag=False)
@@ -27,6 +28,7 @@ class StoreCategoryViewSet(ModelViewSet):
 
 
 class StoreViewSet(ModelViewSet):
+    filter_fields = ['title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner']
 
     def get_queryset(self):
         queryset = Store.objects.filter(delete_flag=False)
@@ -40,6 +42,7 @@ class StoreViewSet(ModelViewSet):
 
 
 class StoreVisitViewSet(ModelViewSet):
+    filter_fields = ['store_visit_related_store']
 
     def get_queryset(self):
         queryset = StoreVisit.objects.filter(delete_flag=False)

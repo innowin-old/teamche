@@ -20,6 +20,7 @@ from rest_framework_jwt.utils import jwt_payload_handler, jwt_encode_handler
 
 class SmsViewSet(ModelViewSet):
     permission_classes = [AllowAny]
+    filter_fields = ['phone_number', 'code']
 
     def get_queryset(self):
         queryset = Sms.objects.filter(delete_flag=False)
@@ -30,6 +31,7 @@ class SmsViewSet(ModelViewSet):
 
 class CommentViewSet(ModelViewSet):
     permission_classes = [AllowAny]
+    filter_fields = ['text', 'comment_related_parent']
 
     def get_queryset(self):
         queryset = Comment.objects.filter(delete_flag=False)
@@ -43,6 +45,7 @@ class CommentViewSet(ModelViewSet):
 
 
 class RateViewSet(ModelViewSet):
+    filter_fields = ['title', 'value', 'rate_related_parent']
 
     def get_queryset(self):
         queryset = Rate.objects.filter(delete_flag=False)
@@ -56,6 +59,7 @@ class RateViewSet(ModelViewSet):
 
 
 class FavoriteViewSet(ModelViewSet):
+    filter_fields = ['favorite_related_parent']
 
     def get_queryset(self):
         queryset = Favorite.objects.filter(delete_flag=False)
@@ -69,6 +73,7 @@ class FavoriteViewSet(ModelViewSet):
 
 
 class DiscountViewSet(ModelViewSet):
+    filter_fields = ['discount_value', 'discount_related_parent']
 
     def get_queryset(self):
         queryset = Discount.objects.filter(delete_flag=False)
@@ -82,6 +87,7 @@ class DiscountViewSet(ModelViewSet):
 
 
 class ReportViewSet(ModelViewSet):
+    filter_fields = ['report_text', 'report_related_parent']
 
     def get_queryset(self):
         queryset = Report.objects.filter(delete_flag=False)
