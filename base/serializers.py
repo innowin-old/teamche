@@ -8,6 +8,8 @@ from .models import (
         Discount,
         Report
     )
+from stores.models import Store
+from users.models import User
 
 
 class BaseSerializer(ModelSerializer):
@@ -22,6 +24,20 @@ class BaseSerializer(ModelSerializer):
 class SmsSerializer(BaseSerializer):
     class Meta:
         model = Sms
+        fields = '__all__'
+
+
+class UserDetailSerializer(BaseSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name']
+
+
+class CommentListSerializer(BaseSerializer):
+    comment_related_user = UserDetailSerializer()
+
+    class Meta:
+        model = Comment
         fields = '__all__'
 
 
@@ -41,6 +57,20 @@ class RateSerializer(BaseSerializer):
         extra_kwargs = {
           'rate_related_user': { 'read_only': True }
         }
+
+
+class StoreDetailSerializer(BaseSerializer):
+    class Meta:
+        model = Base
+        fields = '__all__'
+
+
+class FavoriteListSerializer(BaseSerializer):
+    favorite_related_parent = StoreDetailSerializer()
+
+    class Meta:
+        model = Favorite
+        fields = '__all__'
 
 
 class FavoriteSerializer(BaseSerializer):

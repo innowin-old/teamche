@@ -4,8 +4,10 @@ from .models import Sms, Comment, Rate, Favorite, Discount, Report
 from .serializers import (
     SmsSerializer,
     CommentSerializer,
+    CommentListSerializer,
     RateSerializer,
     FavoriteSerializer,
+    FavoriteListSerializer,
     DiscountSerializer,
     ReportSerializer
 )
@@ -38,6 +40,8 @@ class CommentViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
+        if self.action == 'list':
+            return CommentListSerializer
         return CommentSerializer
 
     def perform_create(self, serializer):
@@ -66,6 +70,8 @@ class FavoriteViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
+        if self.action == 'list':
+            return FavoriteListSerializer
         return FavoriteSerializer
 
     def perform_create(self, serializer):
