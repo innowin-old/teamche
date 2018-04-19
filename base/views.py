@@ -70,7 +70,7 @@ class FavoriteViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action == 'list' or self.action == 'retrieve':
             return FavoriteListSerializer
         return FavoriteSerializer
 
