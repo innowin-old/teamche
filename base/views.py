@@ -63,7 +63,7 @@ class RateViewSet(ModelViewSet):
 
 
 class FavoriteViewSet(ModelViewSet):
-    filter_fields = ['favorite_related_parent']
+    filter_fields = ['favorite_related_parent', 'favorite_related_user']
 
     def get_queryset(self):
         queryset = Favorite.objects.filter(delete_flag=False)
