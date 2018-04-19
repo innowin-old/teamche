@@ -12,7 +12,9 @@ from .models import (
 from .serializers import (
     StoreCategorySerializer,
     StoreSerializer,
-    StoreVisitSerializer
+    StoreDetailSerializer,
+    StoreVisitSerializer,
+    StoreVisitDetailSerializer
 )
 
 
@@ -35,6 +37,8 @@ class StoreViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return StoreDetailSerializer
         return StoreSerializer
 
     def perform_create(self, serializer):
@@ -49,6 +53,8 @@ class StoreVisitViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return StoreVisitDetailSerializer
         return StoreVisitSerializer
 
     def perform_create(self, serializer):

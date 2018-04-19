@@ -12,6 +12,14 @@ class StoreCategorySerializer(BaseSerializer):
         fields = '__all__'
 
 
+class StoreDetailSerializer(BaseSerializer):
+    store_related_category = StoreCategorySerializer()
+
+    class Meta:
+        model = Store
+        fields = '__all__'
+
+
 class StoreSerializer(BaseSerializer):
     class Meta:
         model = Store
@@ -19,6 +27,14 @@ class StoreSerializer(BaseSerializer):
         extra_kwargs = {
           'store_related_user': { 'read_only': True }
         }
+
+
+class StoreVisitDetailSerializer(BaseSerializer):
+    store_visit_related_store = StoreDetailSerializer()
+
+    class Meta:
+        model = StoreVisit
+        fields = '__all__'
 
 
 class StoreVisitSerializer(BaseSerializer):
