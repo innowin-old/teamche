@@ -25,7 +25,7 @@ post_save.connect(update_cache, sender=Sms)
 
 
 class Comment(Base):
-    comment_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name="comment_related_parent_name")
+    comment_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name="comment_related_parent_name", blank=True, null=True)
     comment_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='comment_related_user_name')
     text = models.TextField()
 
