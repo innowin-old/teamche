@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 
-from base.models import Base
+from base.models import Base, File
 from users.models import User
 from base.signals import update_cache
 
@@ -30,8 +30,12 @@ class Store(Base):
     longitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
 
     def images(self):
+        images = []
         files = File.objects.filter(file_related_parent=self)
-        serializer = FileSerializer
+        for file in files:
+            data = {'link': file.file_link}
+            images.append(data)
+        return images
 
 post_save.connect(update_cache, sender=Store)
 

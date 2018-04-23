@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from base.serializers import BaseSerializer
+from base.serializers import BaseSerializer, ReadOnlyField
 from .models import (
     StoreCategory,
     Store,
@@ -7,6 +7,8 @@ from .models import (
 )
 
 class StoreCategorySerializer(BaseSerializer):
+    image = ReadOnlyField()
+
     class Meta:
         model = StoreCategory
         fields = '__all__'
@@ -14,6 +16,7 @@ class StoreCategorySerializer(BaseSerializer):
 
 class StoreDetailSerializer(BaseSerializer):
     store_related_category = StoreCategorySerializer()
+    images = ReadOnlyField()
 
     class Meta:
         model = Store
