@@ -9,6 +9,13 @@ from base.signals import update_cache
 class StoreCategory(Base):
     title = models.CharField(max_length=50)
 
+    def image(self):
+        file_instance = File.objects.filter(file_related_parent=self)
+        if file_instance.count() > 0:
+            return file_instance[0].file_link
+        else:
+            return None
+
 post_save.connect(update_cache, sender=StoreCategory)
 
 
@@ -21,6 +28,10 @@ class Store(Base):
     phone_number = models.CharField(max_length=11, blank=True, null=True)
     latitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
     longitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
+
+    def images(self):
+        files = File.objects.filter(file_related_parent=self)
+        serializer = FileSerializer
 
 post_save.connect(update_cache, sender=Store)
 
