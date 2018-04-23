@@ -8,7 +8,9 @@ from .views import (
     RateViewSet,
     FavoriteViewSet,
     DiscountViewSet,
-    ReportViewSet
+    ReportViewSet,
+    FileViewSet,
+    SliderViewSet
 )
 
 router = SimpleRouter()
@@ -18,6 +20,8 @@ router.register(r'rates', RateViewSet, 'base-rates')
 router.register(r'favorites', FavoriteViewSet, 'base-favorites')
 router.register(r'discounts', DiscountViewSet, 'base-discounts')
 router.register(r'reports', ReportViewSet, 'base-reports')
+router.register(r'files', FileViewSet, 'base-files')
+router.register(r'sliders', SliderViewSet, 'base-sliders')
 
 urlpatterns = [
     url(r'^', include(router.urls))

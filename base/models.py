@@ -1,8 +1,11 @@
 from django.db import models
 from django.utils.timezone import now
 from django.db.models.signals import post_save
+from django.conf import settings
 
 from .signals import update_cache
+
+import os, uuid
 
 
 class Base(models.Model):
@@ -62,3 +65,31 @@ class Report(Base):
     report_text = models.TextField(blank=True, null=True)
 
 post_save.connect(update_cache, sender=Report)
+
+
+def get_upload_path(media, filename):
+    name, ext = os.path.splitext(filename)
+    ext = ext.lower()
+    return os.path.join(settings.MEDIA_ROOT, uuid.uuid4().hex + ext)
+
+
+class File(Base):
+    file_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='file_related_parent_name', blank=True, null=True)
+    file_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='file_related_user_name')
+    file_path = models.FileField(upload_to=get_upload_path)
+
+    @property
+    def file_link(self):
+        return settings.MEDIA_URL + '/' + os.path.basename(self.file_path.name)
+
+
+class Slider(Base):
+    title = models.CharField(max_length=50, blank=True, null=True)
+    link = models.CharField(max_length=200, blank=True, null=True)
+
+    def image(self):
+        file_instance = File.objects.filter(file_related_parent=self)
+        if file_instance.count() > 0:
+            return file_instance[0].file_link
+        else:
+            return None

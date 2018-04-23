@@ -1,5 +1,7 @@
+import base64
+from django.core.files.base import ContentFile
 from django.http import JsonResponse
-from rest_framework.serializers import ModelSerializer, CharField, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, CharField, SerializerMethodField, ReadOnlyField
 from .models import (
         Base,
         Sms,
@@ -7,7 +9,9 @@ from .models import (
         Rate,
         Favorite,
         Discount,
-        Report
+        Report,
+        File,
+        Slider
     )
 from stores.models import Store
 from users.models import User
@@ -110,3 +114,61 @@ class ReportSerializer(BaseSerializer):
         extra_kwargs = {
           'report_related_user': { 'read_only': True }
         }
+
+class FileSerializer(BaseSerializer):
+    file_link = ReadOnlyField()
+    file_string = CharField(write_only=True)
+
+    class Meta:
+        model = File
+        fields = '__all__'
+        extra_kwargs = {
+          'file_related_user': { 'read_only': True },
+          'file_link': { 'read_only': True },
+          'file_path': { 'read_only': True },
+          'file_string': { 'write_only': True }
+        }
+
+    def create(self, validated_data):
+        data = validated_data.pop('file_string')
+        request = self.context.get("request")
+
+        if data != '':
+            format, imgstr = data.split(';base64,')
+            ext = format.split('/')[-1]
+            print(ext)
+            validated_data['file_path'] = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            if ext == 'mp4' or ext == 'avi' or ext == 'webm':
+                validated_data['file_path'] = compress_video(validated_data['file_path'])
+
+        file_obj = File.objects.create(**validated_data)
+        return file_obj
+
+
+class SliderSerializer(BaseSerializer):
+    file_string = CharField(write_only=True)
+    image = ReadOnlyField()
+
+    class Meta:
+        model = Slider
+        fields = '__all__'
+
+    def create(self, validated_data):
+        try:
+            data = validated_data.pop('file_string')
+            request = self.context.get("request")
+
+            if data != '':
+                format, imgstr = data.split(';base64,')
+                ext = format.split('/')[-1]
+                print(ext)
+                validated_data['file_path'] = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+                if ext == 'mp4' or ext == 'avi' or ext == 'webm':
+                    validated_data['file_path'] = compress_video(validated_data['file_path'])
+
+            slider_instance = Slider.objects.create(title=validated_data.get('title', None), link=validated_data.get('link', None))
+
+            file_obj = File.objects.create(file_related_parent_id=slider_instance.id, file_related_user_id=request.user.id, file_path=validated_data.get('file_path', None))
+            return slider_instance
+        except Exception as e:
+            print(e)

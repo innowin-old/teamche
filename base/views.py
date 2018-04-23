@@ -1,6 +1,15 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Sms, Comment, Rate, Favorite, Discount, Report
+from .models import (
+    Sms,
+    Comment,
+    Rate,
+    Favorite,
+    Discount,
+    Report,
+    File,
+    Slider
+)
 from .serializers import (
     SmsSerializer,
     CommentSerializer,
@@ -9,7 +18,9 @@ from .serializers import (
     FavoriteSerializer,
     FavoriteListSerializer,
     DiscountSerializer,
-    ReportSerializer
+    ReportSerializer,
+    FileSerializer,
+    SliderSerializer
 )
 from users.models import User
 from django.views.decorators.csrf import csrf_exempt
@@ -104,6 +115,31 @@ class ReportViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(report_related_user=self.request.user)
+
+
+class FileViewSet(ModelViewSet):
+    filter_fields = ['file_related_parent', 'file_related_user']
+
+    def get_queryset(self):
+        queryset = File.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return FileSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(file_related_user=self.request.user)
+
+
+class SliderViewSet(ModelViewSet):
+    filter_fields = ['title', 'link']
+
+    def get_queryset(self):
+        queryset = Slider.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return SliderSerializer
 
 
 @csrf_exempt
