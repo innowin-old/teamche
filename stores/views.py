@@ -46,7 +46,7 @@ class StoreViewSet(ModelViewSet):
 
 
 class StoreVisitViewSet(ModelViewSet):
-    filter_fields = ['store_visit_related_store', 'store_visit_related_user']
+    filter_fields = ['store_visit_related_store', 'store_visit_related_user', 'active_flag', 'delete_flag']
 
     def get_queryset(self):
         queryset = StoreVisit.objects.filter(delete_flag=False)
