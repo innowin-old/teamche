@@ -44,5 +44,6 @@ post_save.connect(update_cache, sender=Store)
 class StoreVisit(Base):
     store_visit_related_store = models.ForeignKey(Store, related_name='store_visit_related_store', on_delete=models.CASCADE)
     store_visit_related_user = models.ForeignKey(User, related_name='store_visit_related_user', on_delete=models.CASCADE)
+    active_flag = models.BooleanField(default=False)
 
 post_save.connect(update_cache, sender=StoreVisit)
