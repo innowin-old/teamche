@@ -8,6 +8,7 @@ from .views import (
     RateViewSet,
     FavoriteViewSet,
     DiscountViewSet,
+    ViewModelViewSet,
     ReportViewSet,
     FileViewSet,
     SliderViewSet
@@ -22,6 +23,7 @@ router.register(r'discounts', DiscountViewSet, 'base-discounts')
 router.register(r'reports', ReportViewSet, 'base-reports')
 router.register(r'files', FileViewSet, 'base-files')
 router.register(r'sliders', SliderViewSet, 'base-sliders')
+router.register(r'views', ViewModelViewSet, 'base-views')
 
 urlpatterns = [
     url(r'^', include(router.urls))
