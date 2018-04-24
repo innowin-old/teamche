@@ -40,7 +40,6 @@ class UserDetailSerializer(BaseSerializer):
 
 
 class StoreVisitDetailSerializer(BaseSerializer):
-    store_visit_related_store = StoreDetailSerializer()
     store_visit_related_user = UserDetailSerializer()
 
     class Meta:
