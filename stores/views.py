@@ -58,4 +58,4 @@ class StoreVisitViewSet(ModelViewSet):
         return StoreVisitSerializer
 
     def perform_create(self, serializer):
-        serializer.save(store_visit_related_user=self.request.user)
+        serializer.save(store_visit_related_user=self.request.user, active_flag=False)
