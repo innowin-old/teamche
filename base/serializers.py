@@ -9,6 +9,7 @@ from .models import (
         Rate,
         Favorite,
         Discount,
+        ViewModel,
         Report,
         File,
         Slider
@@ -104,6 +105,15 @@ class DiscountSerializer(BaseSerializer):
         fields = '__all__'
         extra_kwargs = {
           'discount_related_user': { 'read_only': True }
+        }
+
+
+class ViewModelSerializer(BaseSerializer):
+    class Meta:
+        model = ViewModel
+        fields = '__all__'
+        extra_kwargs = {
+          'view_model_related_user': { 'read_only': True }
         }
 
 

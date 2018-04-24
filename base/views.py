@@ -7,6 +7,7 @@ from .models import (
     Favorite,
     Discount,
     Report,
+    ViewModel,
     File,
     Slider
 )
@@ -18,6 +19,7 @@ from .serializers import (
     FavoriteSerializer,
     FavoriteListSerializer,
     DiscountSerializer,
+    ViewModelSerializer,
     ReportSerializer,
     FileSerializer,
     SliderSerializer
@@ -101,6 +103,20 @@ class DiscountViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(discount_related_user=self.request.user)
+
+
+class ViewModelViewSet(ModelViewSet):
+    filter_fields = ['view_model_related_parent', 'view_model_related_user']
+
+    def get_queryset(self):
+        queryset = ViewModel.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return ViewModelSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(view_model_related_user=self.request.user)
 
 
 class ReportViewSet(ModelViewSet):

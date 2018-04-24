@@ -12,6 +12,7 @@ class ProductCategory(Base):
 
 class ProductBrand(Base):
     title = models.CharField(max_length=100)
+    product_brand_related_store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='product_brand_related_store_name')
     product_brand_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_brand_related_user_name')
 
 
@@ -27,3 +28,4 @@ class Product(Base):
 class ProductPrice(Base):
     product_price_related_product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_price_related_product_name')
     amount = models.IntegerField()
+    product_price_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_price_related_user')

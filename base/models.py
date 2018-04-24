@@ -59,6 +59,11 @@ class Discount(Base):
 post_save.connect(update_cache, sender=Discount)
 
 
+class ViewModel(Base):
+    view_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='view_related_parent_name')
+    view_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='view_related_user_name')
+
+
 class Report(Base):
     report_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='report_related_parent_name')
     report_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='report_related_user_name')
