@@ -28,6 +28,7 @@ class Store(Base):
     phone_number = models.CharField(max_length=11, blank=True, null=True)
     latitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
     longitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
+    address = models.CharField(max_length=128, blank=True, null=True)
 
     def images(self):
         images = []
