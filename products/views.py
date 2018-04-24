@@ -42,7 +42,7 @@ class ProductBrandViewSet(ModelViewSet):
 
 
 class ProductViewSet(ModelViewSet):
-    filter_fields = ['title', 'product_related_parent', 'product_related_brand', 'product_related_category', 'product_realted_user', 'made_in_iran']
+    filter_fields = ['title', 'product_related_parent', 'brand', 'product_related_category', 'product_realted_user', 'made_in_iran']
 
     def get_queryset(self):
         queryset = Product.objects.filter(delete_flag=False)

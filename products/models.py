@@ -18,7 +18,7 @@ class ProductBrand(Base):
 class Product(Base):
     title = models.CharField(max_length=100)
     product_related_store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='product_related_store_name')
-    product_related_brand = models.ForeignKey(ProductBrand, on_delete=models.CASCADE, related_name='product_related_brand_name')
+    brand = models.CharField(max_length=50)
     product_related_category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='product_related_category_name')
     product_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_related_user_name')
     made_in_iran = models.BooleanField()
