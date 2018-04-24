@@ -5,6 +5,7 @@ from .models import (
     Store,
     StoreVisit
 )
+from users.models import User
 
 class StoreCategorySerializer(BaseSerializer):
     image = ReadOnlyField()
@@ -32,8 +33,15 @@ class StoreSerializer(BaseSerializer):
         }
 
 
+class UserDetailSerializer(BaseSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name']
+
+
 class StoreVisitDetailSerializer(BaseSerializer):
     store_visit_related_store = StoreDetailSerializer()
+    store_visit_related_user = UserDetailSerializer()
 
     class Meta:
         model = StoreVisit
