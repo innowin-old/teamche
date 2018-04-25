@@ -31,3 +31,5 @@ class UpgradeRequest(Base):
     last_name = models.CharField(max_length=100)
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
     active_flag = models.BooleanField(default=False)
+
+post_save.connect(update_cache, sender=UpgradeRequest)

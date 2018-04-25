@@ -87,6 +87,8 @@ class File(Base):
     def file_link(self):
         return settings.MEDIA_URL + '/' + os.path.basename(self.file_path.name)
 
+post_save.connect(update_cache, sender=File)
+
 
 class Slider(Base):
     title = models.CharField(max_length=50, blank=True, null=True)
@@ -98,3 +100,5 @@ class Slider(Base):
             return file_instance[0].file_link
         else:
             return None
+
+post_save.connect(update_cache, sender=Slider)
