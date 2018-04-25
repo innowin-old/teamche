@@ -27,7 +27,7 @@ class UserViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.request.user.is_superuser:
+        if self.request and self.request.user and self.request.user.is_superuser:
             return UserAdminSerializer
         return UserSerializer
 

@@ -49,7 +49,7 @@ class ProductBrandViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.request.user.is_superuser:
+        if self.request and self.request.user and self.request.user.is_superuser:
             return ProductBrandAdminSerializer
         return ProductBrandSerializer
 
