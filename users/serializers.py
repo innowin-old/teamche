@@ -6,16 +6,35 @@ from .models import (
     UpgradeRequest
   )
 
+class UserAdminSerializer(BaseSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+
 class UserSerializer(BaseSerializer):
     class Meta:
         model = User
+        fields = [
+          'id',
+          'username',
+          'first_name',
+          'last_name',
+          'email',
+          'gender'
+        ]
+
+
+class UpgradeRequestAdminSerializer(BaseSerializer):
+    class Meta:
+        model = UpgradeRequest
         fields = '__all__'
 
 
 class UpgradeRequestSerializer(BaseSerializer):
     class Meta:
         model = UpgradeRequest
-        fields = '__all__'
+        fields = ['id', 'first_name', 'last_name', 'gender']
         extra_kwargs = {
           'upgrade_request_related_user': { 'read_only': True }
         }

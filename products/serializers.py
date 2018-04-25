@@ -12,34 +12,58 @@ from .models import (
 class ProductCategorySerializer(BaseSerializer):
     class Meta:
         model = ProductCategory
-        fields = '__all__'
+        fields = ['id', 'title', 'product_category_related_parent']
         extra_kwargs = {
           'product_category_related_user': { 'read_only': True }
         }
 
 
+class ProductCategoryAdminSerializer(BaseSerializer):
+    class Meta:
+        model = ProductCategory
+        fields = '__all__'
+
+
 class ProductBrandSerializer(BaseSerializer):
     class Meta:
         model = ProductBrand
-        fields = '__all__'
+        fields = ['id', 'title', 'product_brand_related_store']
         extra_kwargs = {
           'product_brand_related_user': { 'read_only': True }
         }
 
 
+class ProductBrandAdminSerializer(BaseSerializer):
+    class Meta:
+        model = ProductBrand
+        fields = '__all__'
+
+
 class ProductSerializer(BaseSerializer):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['id', 'title', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category']
         extra_kwargs = {
           'product_related_user': { 'read_only': True }
         }
 
 
+class ProductAdminSerializer(BaseSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
 class ProductPriceSerializer(BaseSerializer):
     class Meta:
         model = ProductPrice
-        fields = '__all__'
+        fields = ['id', 'product_price_related_product', 'amount']
         extra_kwargs = {
           'product_price_related_user': { 'read_only': True }
         }
+
+
+class ProductPriceAdminSerializer(BaseSerializer):
+    class Meta:
+        model = ProductPrice
+        fields = '__all__'

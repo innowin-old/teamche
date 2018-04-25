@@ -13,20 +13,27 @@ from .models import (
 
 from .serializers import (
   ProductCategorySerializer,
+  ProductCategoryAdminSerializer,
   ProductBrandSerializer,
+  ProductBrandAdminSerializer,
   ProductSerializer,
-  ProductPriceSerializer
+  ProductAdminSerializer,
+  ProductPriceSerializer,
+  ProductPriceAdminSerializer
 )
 
 
 class ProductCategoryViewSet(ModelViewSet):
     filter_fields = ['title', 'product_category_related_parent', 'product_category_related_user']
+    ordering_fields = '__all__'
 
     def queryset(self):
         queryset = ProductCategory.objects.filter(delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
+        if self.request and self.request.user and self.request.user.is_superuser:
+            return ProductCategoryAdminSerializer
         return ProductCategorySerializer
 
     def perform_create(self, serializer):
@@ -35,12 +42,15 @@ class ProductCategoryViewSet(ModelViewSet):
 
 class ProductBrandViewSet(ModelViewSet):
     filter_fields = ['title', 'product_brand_related_store', 'product_brand_related_user']
+    ordering_fields = '__all__'
 
     def get_queryset(self):
         queryset = ProductBrand.objects.filter(delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
+        if self.request.user.is_superuser:
+            return ProductBrandAdminSerializer
         return ProductBrandSerializer
 
     def perform_create(self, serializer):
@@ -49,12 +59,15 @@ class ProductBrandViewSet(ModelViewSet):
 
 class ProductViewSet(ModelViewSet):
     filter_fields = ['title', 'product_related_parent', 'brand', 'product_related_category', 'product_realted_user', 'made_in_iran']
+    ordering_fields = '__all__'
 
     def get_queryset(self):
         queryset = Product.objects.filter(delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
+        if self.request and self.request.user and self.request.user.is_superuser:
+            return ProductAdminSerializer
         return ProductSerializer
 
     def perform_create(self, serializer):
@@ -63,12 +76,15 @@ class ProductViewSet(ModelViewSet):
 
 class ProductPriceViewSet(ModelViewSet):
     filter_fields = ['product_price_related_product', 'amount', 'product_price_related_user']
+    ordering_fields = '__all__'
 
     def get_queryset(self):
         queryset = ProductPrice.objects.filter(delete_flag=False)
         return queryset
 
-    def get_serializer_class(slef):
+    def get_serializer_class(self):
+        if self.request and self.request.user and self.request.user.is_superuser:
+            return ProductPriceAdminSerializer
         return ProductPriceSerializer
 
     def perform_create(self, serializer):

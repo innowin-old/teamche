@@ -11,7 +11,9 @@ from .models import (
 
 from .serializers import (
     UserSerializer,
+    UserAdminSerializer,
     UpgradeRequestSerializer,
+    UpgradeRequestAdminSerializer,
     UpgradeRequestUserSerializer
   )
 
@@ -25,6 +27,8 @@ class UserViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
+        if self.request.user.is_superuser:
+            return UserAdminSerializer
         return UserSerializer
 
     @list_route(methods=['get'])
@@ -45,9 +49,9 @@ class UpgradeRequestViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.request and self.request.user and self.request.user.is_superuser():
-            return UpgradeRequestSerializer
-        return UpgradeRequestUserSerializer
+        if self.request and self.request.user and self.request.user.is_superuser:
+            return UpgradeRequestAdminSerializer
+        return UpgradeRequestSerializer
 
     def perform_create(self, serializer):
         serializer.save(upgrade_request_related_user=self.request.user)
