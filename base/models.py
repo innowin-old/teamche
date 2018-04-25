@@ -102,3 +102,11 @@ class Slider(Base):
             return None
 
 post_save.connect(update_cache, sender=Slider)
+
+
+class TopFilter(Base):
+    title = models.CharField(max_length=50, blank=True, null=True)
+    link = models.CharField(max_length=200)
+    order = models.IntegerField()
+
+post_save.connect(update_cache, sender=TopFilter)

@@ -12,7 +12,8 @@ from .models import (
         ViewModel,
         Report,
         File,
-        Slider
+        Slider,
+        TopFilter
     )
 from stores.models import Store
 from users.models import User
@@ -182,3 +183,9 @@ class SliderSerializer(BaseSerializer):
             return slider_instance
         except Exception as e:
             print(e)
+
+
+class TopFilterSerializer(BaseSerializer):
+    class Meta:
+        model = TopFilter
+        fields = '__all__'

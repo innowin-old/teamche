@@ -11,7 +11,8 @@ from .views import (
     ViewModelViewSet,
     ReportViewSet,
     FileViewSet,
-    SliderViewSet
+    SliderViewSet,
+    TopFilterViewSet
 )
 
 router = SimpleRouter()
@@ -24,6 +25,7 @@ router.register(r'reports', ReportViewSet, 'base-reports')
 router.register(r'files', FileViewSet, 'base-files')
 router.register(r'sliders', SliderViewSet, 'base-sliders')
 router.register(r'views', ViewModelViewSet, 'base-views')
+router.register(r'top-filters', TopFilterViewSet, 'base=top=filters')
 
 urlpatterns = [
     url(r'^', include(router.urls))

@@ -9,7 +9,8 @@ from .models import (
     Report,
     ViewModel,
     File,
-    Slider
+    Slider,
+    TopFilter
 )
 from .serializers import (
     SmsSerializer,
@@ -22,7 +23,8 @@ from .serializers import (
     ViewModelSerializer,
     ReportSerializer,
     FileSerializer,
-    SliderSerializer
+    SliderSerializer,
+    TopFilterSerializer
 )
 from users.models import User
 from django.views.decorators.csrf import csrf_exempt
@@ -156,6 +158,17 @@ class SliderViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         return SliderSerializer
+
+
+class TopFilterViewSet(ModelViewSet):
+    filter_fields = ['title', 'link', 'order']
+
+    def get_queryset(self):
+        queryset = TopFilter.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return TopFilterSerializer
 
 
 @csrf_exempt
