@@ -12,7 +12,7 @@ from .models import (
 class ProductCategorySerializer(BaseSerializer):
     class Meta:
         model = ProductCategory
-        fields = ['id', 'title', 'product_category_related_parent']
+        fields = ['id', 'title', 'product_category_related_parent', 'product_category_related_store']
         extra_kwargs = {
           'product_category_related_user': { 'read_only': True }
         }
