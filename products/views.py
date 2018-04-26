@@ -58,7 +58,7 @@ class ProductBrandViewSet(ModelViewSet):
 
 
 class ProductViewSet(ModelViewSet):
-    filter_fields = ['title', 'product_related_parent', 'brand', 'product_related_category', 'product_realted_user', 'made_in_iran']
+    filter_fields = ['title', 'product_related_store', 'brand', 'product_related_category', 'product_related_user', 'made_in_iran']
     ordering_fields = '__all__'
 
     def get_queryset(self):
