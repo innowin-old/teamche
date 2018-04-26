@@ -10,6 +10,7 @@ class ProductCategory(Base):
     title = models.CharField(max_length=100)
     product_category_related_parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='product_category_related_parent_name', blank=True, null=True)
     product_category_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_category_related_user_name')
+    product_category_related_store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='product_category_related_store_name')
 
 post_save.connect(update_cache, sender=ProductCategory)
 
