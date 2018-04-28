@@ -188,7 +188,7 @@ def login(request):
 def code_verify(request):
     try:
         if Sms.objects.filter(phone_number=request.POST.get('phone_number', ''), code=request.POST.get('code', ''), delete_flag=False).count() >= 1:
-            sms = Sms.objects.get(phone_number=request.POST.get('phone_number', ''), code=request.POST.get('code', ''), delete_flag=False)
+            sms = Sms.objects.filter(phone_number=request.POST.get('phone_number', ''), code=request.POST.get('code', ''), delete_flag=False)[0]
             sms.delete_flag = True
             if User.objects.filter(username=sms.phone_number).count() > 0:
                 user = User.objects.filter(username=sms.phone_number)[0]
