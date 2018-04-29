@@ -27,7 +27,7 @@ class ProductCategoryViewSet(ModelViewSet):
     filter_fields = ['title', 'product_category_related_parent', 'product_category_related_user', 'product_category_related_store']
     ordering_fields = '__all__'
 
-    def queryset(self):
+    def get_queryset(self):
         queryset = ProductCategory.objects.filter(delete_flag=False)
         return queryset
 
