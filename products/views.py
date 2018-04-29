@@ -24,7 +24,7 @@ from .serializers import (
 
 
 class ProductCategoryViewSet(ModelViewSet):
-    filter_fields = ['title', 'product_category_related_parent', 'product_category_related_user']
+    filter_fields = ['title', 'product_category_related_parent', 'product_category_related_user', 'product_category_related_store']
     ordering_fields = '__all__'
 
     def queryset(self):
@@ -71,7 +71,11 @@ class ProductViewSet(ModelViewSet):
         return ProductSerializer
 
     def perform_create(self, serializer):
+        data = self.request.data
+
         serializer.save(product_related_user=self.request.user)
+        if ProductBrand.objects.filter(title=data.get('brand', ''), product_brand_related_store_id=data.get('product_related_store', ''), product_brand_related_user=self.request.user).count() == 0:
+            instance = ProductBrand.objects.create(title=data.get('brand', ''), product_brand_related_store_id=data.get('product_related_store', ''), product_brand_related_user=self.request.user)
 
 
 class ProductPriceViewSet(ModelViewSet):

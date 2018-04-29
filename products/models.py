@@ -12,6 +12,9 @@ class ProductCategory(Base):
     product_category_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_category_related_user_name')
     product_category_related_store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='product_category_related_store_name')
 
+    def __str__(self):
+        return self.title + " - " + self.product_category_related_store.title
+
 post_save.connect(update_cache, sender=ProductCategory)
 
 
@@ -19,6 +22,9 @@ class ProductBrand(Base):
     title = models.CharField(max_length=100)
     product_brand_related_store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='product_brand_related_store_name')
     product_brand_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_brand_related_user_name')
+
+    def __str__(self):
+        return self.title + " - " + self.product_brand_related_store.title
 
 post_save.connect(update_cache, sender=ProductBrand)
 
@@ -30,6 +36,9 @@ class Product(Base):
     product_related_category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='product_related_category_name')
     product_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_related_user_name')
     made_in_iran = models.BooleanField()
+
+    def __str__(self):
+        return self.title + " - " + self.product_related_store.title
 
 post_save.connect(update_cache, sender=Product)
 
