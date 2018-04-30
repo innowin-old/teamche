@@ -35,6 +35,23 @@ class StoreViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = Store.objects.filter(delete_flag=False)
+
+        latitude__lte = self.request.query_params.get('latitude__lte', None)
+        if latitude__lte is not None:
+            queryset  = queryset.filter(latitude__lte=latitude__lte)
+
+        latitude__gte = self.request.query_params.get('latitude__gte', None)
+        if latitude__gte is not None:
+            queryset = queryset.filter(latitude__gte=latitude__gte)
+
+        longitude__lte = self.request.query_params.get('longitude__lte', None)
+        if longitude__lte is not None:
+            queryset = queryset.filter(longitude__lte=longitude__lte)
+
+        longitude__gte = self.request.query_params.get('longitude__gte', None)
+        if longitude__gte is not None:
+            queryset = queryset.filter(longitude__gte=longitude__gte)
+
         return queryset
 
     def get_serializer_class(self):

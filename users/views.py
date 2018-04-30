@@ -19,7 +19,7 @@ from .serializers import (
 
 
 class UserViewSet(ModelViewSet):
-    filter_fields = ['username', 'first_name', 'last_name', 'email', 'gender', 'type']
+    filter_fields = ['id', 'username', 'first_name', 'last_name', 'email', 'gender', 'type']
     search_fields = ['username', 'first_name', 'last_name', 'email']
 
     def get_queryset(self):
