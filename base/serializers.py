@@ -75,7 +75,6 @@ class StoreDetailSerializer(BaseSerializer):
 class FavoriteListSerializer(BaseSerializer):
     favorite_related_parent = SerializerMethodField()
     favorite_related_user = UserDetailSerializer()
-    favorite_related_parent = StoreDetailSerializer()
 
     class Meta:
         model = Favorite
