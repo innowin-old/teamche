@@ -30,6 +30,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('stores/', include('stores.urls')),
     path('products/', include('products.urls')),
+    path('posts/', include('blog.urls')),
     path('admin/', admin.site.urls),
     path('docs/', include_docs_urls(title='Teamche', permission_classes=[AllowAny])),
     path('api-auth/', include('rest_framework.urls'))
