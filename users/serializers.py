@@ -21,8 +21,12 @@ class UserSerializer(BaseSerializer):
           'first_name',
           'last_name',
           'email',
-          'gender'
+          'gender',
+          'type'
         ]
+        extra_kwargs = {
+          'type': { 'read_only': True }
+        }
 
 
 class UpgradeRequestAdminSerializer(BaseSerializer):
