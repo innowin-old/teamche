@@ -42,10 +42,11 @@ class ProductBrandAdminSerializer(BaseSerializer):
 class ProductSerializer(BaseSerializer):
     images = ReadOnlyField()
     discount = ReadOnlyField()
+    price = ReadOnlyField()
 
     class Meta:
         model = Product
-        fields = ['id', 'title', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category']
+        fields = ['id', 'title', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category', 'images', 'discount', 'price']
         extra_kwargs = {
           'product_related_user': { 'read_only': True }
         }
