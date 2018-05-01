@@ -1,7 +1,11 @@
 from django.db import models
 from django.db.models.signals import post_save
-from base.models import Base
+from base.models import Base, File, Discount
 from base.signals import update_cache
+from base.serializers import (
+  FileSerializer,
+  DiscountSerializer
+)
 from users.models import User
 from stores.models import Store
 
@@ -39,6 +43,27 @@ class Product(Base):
 
     def __str__(self):
         return self.title + " - " + self.product_related_store.title
+
+    @property
+    def images(self):
+        file_instances = File.objects.filter(file_related_parent=self)
+        serializer = FileSerializer(file_instances, many=True)
+        return serializer.data
+
+    @property
+    def discount(self):
+        discount_instance = Discount.objects.filter(discount_related_parent=self).order_by('-pk')
+        if discount_instance.count() > 0:
+            serializer = DiscountSerializer(discount_instance[0])
+            return serializer.data
+        return None
+
+    @property
+    def price(self):
+        price_instance = ProductPrice.objects.filter(product_price_related_product=self).order_by('-pk')
+        if price_instance.count() > 0:
+            return price_instance[0].value
+        return None
 
 post_save.connect(update_cache, sender=Product)
 

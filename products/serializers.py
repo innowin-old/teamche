@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from base.serializers import BaseSerializer
+from base.serializers import BaseSerializer, ReadOnlyField
 
 from .models import (
   ProductCategory,
@@ -40,6 +40,9 @@ class ProductBrandAdminSerializer(BaseSerializer):
 
 
 class ProductSerializer(BaseSerializer):
+    images = ReadOnlyField()
+    discount = ReadOnlyField()
+
     class Meta:
         model = Product
         fields = ['id', 'title', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category']
@@ -49,6 +52,10 @@ class ProductSerializer(BaseSerializer):
 
 
 class ProductAdminSerializer(BaseSerializer):
+    images = ReadOnlyField()
+    discount = ReadOnlyField()
+    price = ReadOnlyField()
+
     class Meta:
         model = Product
         fields = '__all__'
