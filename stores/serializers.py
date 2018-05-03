@@ -7,6 +7,13 @@ from .models import (
 )
 from users.models import User
 
+
+class UserDetailSerializer(BaseSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name']
+
+
 class StoreCategorySerializer(BaseSerializer):
     image = ReadOnlyField()
 
@@ -18,6 +25,8 @@ class StoreCategorySerializer(BaseSerializer):
 class StoreDetailSerializer(BaseSerializer):
     store_related_category = StoreCategorySerializer()
     images = ReadOnlyField()
+    store_related_owner = UserDetailSerializer()
+    store_related_user = UserDetailSerializer()
 
     class Meta:
         model = Store
@@ -25,18 +34,15 @@ class StoreDetailSerializer(BaseSerializer):
 
 
 class StoreSerializer(BaseSerializer):
+    image = ReadOnlyField()
+    bookmark = ReadOnlyField()
+
     class Meta:
         model = Store
         fields = '__all__'
         extra_kwargs = {
           'store_related_user': { 'read_only': True }
         }
-
-
-class UserDetailSerializer(BaseSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'first_name', 'last_name']
 
 
 class StoreVisitDetailSerializer(BaseSerializer):

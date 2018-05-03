@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 
-from base.models import Base, File
+from base.models import Base, File, Favorite
 from users.models import User
 from base.signals import update_cache
 
@@ -30,6 +30,7 @@ class Store(Base):
     longitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
     address = models.CharField(max_length=128, blank=True, null=True)
 
+    @property
     def images(self):
         images = []
         files = File.objects.filter(file_related_parent=self)
