@@ -30,6 +30,7 @@ class Store(Base):
     longitude = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
     address = models.CharField(max_length=128, blank=True, null=True)
     active_flag = models.BooleanField(default=False)
+    related_logo = models.ForeignKey('base.File', on_delete=models.CASCADE, related_name="store_related_logo_name", blank=True, null=True)
 
     @property
     def images(self):
