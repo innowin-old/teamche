@@ -34,7 +34,7 @@ class StoreViewSet(ModelViewSet):
     ordering_fields = ['id', 'title', 'created_time']
 
     def get_queryset(self):
-        queryset = Store.objects.filter(delete_flag=False, active_flag=True).order_by('-pk')
+        queryset = Store.objects.filter(delete_flag=False).order_by('-pk')
 
         latitude__lte = self.request.query_params.get('latitude__lte', None)
         if latitude__lte is not None:
