@@ -45,7 +45,7 @@ class UpgradeRequestViewSet(ModelViewSet):
     filter_fields = ['upgrade_request_related_user', 'first_name', 'last_name', 'gender']
 
     def get_queryset(self):
-        queryset = UpgradeRequest.objects.filter(delete_flag=False)
+        queryset = UpgradeRequest.objects.filter(delete_flag=False, active_flag=False)
         return queryset
 
     def get_serializer_class(self):
