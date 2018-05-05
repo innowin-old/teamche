@@ -26,10 +26,16 @@ class UpgradeRequest(Base):
       ('female', 'Female'),
       ('male', 'Male')
     )
+    MEMBER_TYPE_CHOICES = (
+      ('normal', 'Normal'),
+      ('specific', 'Specific'),
+      ('gold', 'Gold')
+    )
     upgrade_request_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='upgrade_request_related_user_name')
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=100)
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
     active_flag = models.BooleanField(default=False)
+    type = models.CharField(max_length=8, choices=MEMBER_TYPE_CHOICES, default='specific')
 
 post_save.connect(update_cache, sender=UpgradeRequest)
