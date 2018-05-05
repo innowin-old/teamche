@@ -38,7 +38,7 @@ class UpgradeRequestAdminSerializer(BaseSerializer):
 class UpgradeRequestSerializer(BaseSerializer):
     class Meta:
         model = UpgradeRequest
-        fields = ['id', 'first_name', 'last_name', 'gender']
+        fields = ['id', 'first_name', 'last_name', 'gender', 'active_flag']
         extra_kwargs = {
           'upgrade_request_related_user': { 'read_only': True }
         }
