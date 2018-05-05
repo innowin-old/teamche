@@ -38,4 +38,7 @@ class UpgradeRequest(Base):
     active_flag = models.BooleanField(default=False)
     type = models.CharField(max_length=8, choices=MEMBER_TYPE_CHOICES, default='specific')
 
+    def member_type(self):
+        return self.upgrade_request_related_user.type
+
 post_save.connect(update_cache, sender=UpgradeRequest)

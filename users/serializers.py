@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ReadOnlyField
 from base.serializers import BaseSerializer
 
 from .models import (
@@ -30,15 +30,19 @@ class UserSerializer(BaseSerializer):
 
 
 class UpgradeRequestAdminSerializer(BaseSerializer):
+    member_type = ReadOnlyField()
+
     class Meta:
         model = UpgradeRequest
         fields = '__all__'
 
 
 class UpgradeRequestSerializer(BaseSerializer):
+    member_type = ReadOnlyField()
+
     class Meta:
         model = UpgradeRequest
-        fields = ['id', 'first_name', 'last_name', 'gender', 'active_flag', 'type']
+        fields = ['id', 'first_name', 'last_name', 'gender', 'active_flag', 'type', 'member_type']
         extra_kwargs = {
           'upgrade_request_related_user': { 'read_only': True }
         }
