@@ -42,3 +42,10 @@ class UpgradeRequest(Base):
         return self.upgrade_request_related_user.type
 
 post_save.connect(update_cache, sender=UpgradeRequest)
+
+
+def update_cache(sender, instance, **kwargs):
+    if (instance.active_flag = True)
+        user = User.objects.filter(id=instance.upgrade_request_related_user_id)[0]
+        user.type = instance.type
+        user.save()
