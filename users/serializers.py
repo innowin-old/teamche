@@ -43,6 +43,7 @@ class UpgradeRequestAdminSerializer(BaseSerializer):
             user = User.objects.filter(id=instance.upgrade_request_related_user_id)[0]
             user.type = instance.type
             user.save()
+        instance.save()
         return instance
 
 
