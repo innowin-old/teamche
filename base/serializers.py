@@ -67,7 +67,7 @@ class RateSerializer(BaseSerializer):
 
 
 class StoreDetailSerializer(BaseSerializer):
-    image = ReadOnlyField()
+    images = ReadOnlyField()
 
     class Meta:
         model = Store
