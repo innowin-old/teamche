@@ -16,6 +16,7 @@ class Base(models.Model):
     created_time = models.DateTimeField(db_index=True, default=now, editable=False, blank=True)
     updated_time = models.DateTimeField(db_index=True, default=now, blank=True)
     delete_flag = models.BooleanField(db_index=True, default=False, help_text="Boolean")
+    related_parent = models.ForeignKey('self', related_name='related_parent_name', on_delete=models.CASCADE, blank=True, null=True)
 
 post_save.connect(update_cache, sender=Base)
 

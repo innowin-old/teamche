@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -62,7 +63,7 @@ class ProductViewSet(ModelViewSet):
     ordering_fields = '__all__'
 
     def get_queryset(self):
-        queryset = Product.objects.filter(delete_flag=False)
+        queryset = Product.objects.filter(Q(delete_flag=False) | Q(active_flag=True) | Q(active_flag=False, product_related_user=self.request.user))
         return queryset
 
     def get_serializer_class(self):

@@ -46,10 +46,25 @@ class ProductSerializer(BaseSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'title', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category', 'images', 'discount', 'price']
+        fields = ['id', 'title', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category', 'images', 'discount', 'price', 'active_flag']
         extra_kwargs = {
           'product_related_user': { 'read_only': True }
         }
+
+    def update(self, instance, validated_data):
+        if Product.objects.filter(related_parent_id=instance.id, active_flag=True).count() > 0:
+            model = Product.objects.filter(related_parent_id=instance.id, active_flag=True)[0]
+        else:
+            model = Product()
+        model.title = validated_data.get('title', instance.title)
+        model.product_related_store = validated_data.get('product_related_store', instance.product_related_store)
+        model.brand = validated_data.get('brand', instance.brand)
+        model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
+        model.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
+        model.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
+        model.realted_parent = instance.id
+        model.save()
+        return model
 
 
 class ProductAdminSerializer(BaseSerializer):
