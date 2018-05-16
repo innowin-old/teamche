@@ -3,6 +3,7 @@ from django.db.models import Q
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import detail_route, list_route
 
 from .models import (
     StoreCategory,
@@ -38,7 +39,7 @@ class StoreViewSet(ModelViewSet):
         if self.request and self.request.user and self.request.user.is_superuser:
             queryset = Store.objects.filter(delete_flag=False).order_by('-pk')
         else:
-            queryset = Store.objects.filter(Q(delete_flag=False) | Q(active_flag=True) | Q(active_flag=False, store_related_user=self.request.user)).order_by('-pk')
+            queryset = Store.objects.filter(Q(delete_flag=False, active_flag=True) | Q(delete_flag=False, active_flag=False, store_related_user=self.request.user)).order_by('-pk')
 
         latitude__lte = self.request.query_params.get('latitude__lte', None)
         if latitude__lte is not None:
@@ -65,6 +66,22 @@ class StoreViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(store_related_user=self.request.user)
+
+    @detail_route(methods=['post'])
+    def accept_update(self, request, pk=None):
+        update_instance = self.get_object()
+        if update_instance.delete_flag == False:
+            instance = update_instance.related_parent
+            instance = update_instance
+            instance.related_parent = None
+            instance.active_flag = True
+            instance.save()
+            update_instance.delete_flag = True
+            update_instance.save()
+            serializer = StoreSerializer(instance)
+            return Response(serializer.data)
+        else:
+            return Response({'status': 'Update Request Denied Before'})
 
 
 class StoreVisitViewSet(ModelViewSet):

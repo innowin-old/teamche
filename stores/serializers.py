@@ -46,7 +46,7 @@ class StoreSerializer(BaseSerializer):
 
     def update(self, instance, validated_data):
         if Store.objects.filter(related_parent_id=instance.id, delete_flag=False).count() > 0:
-            model = Store.objects.filter(related_parent_id=instance.id, delete_falg=False)[0]
+            model = Store.objects.filter(related_parent_id=instance.id, delete_flag=False)[0]
         else:
             model = Store()
         model.title = validated_data.get('title', instance.title)
