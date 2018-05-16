@@ -51,7 +51,7 @@ class CommentViewSet(ModelViewSet):
     filter_fields = ['text', 'comment_related_parent']
 
     def get_queryset(self):
-        queryset = Comment.objects.filter(delete_flag=False)
+        queryset = Comment.objects.filter(delete_flag=False, active_flag=True)
         return queryset
 
     def get_serializer_class(self):
