@@ -33,7 +33,7 @@ class StoreCategoryViewSet(ModelViewSet):
 
 
 class StoreViewSet(ModelViewSet):
-    filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner', 'related_parent']
+    filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner']
     ordering_fields = ['id', 'title', 'created_time']
 
     def get_queryset(self):
@@ -59,8 +59,11 @@ class StoreViewSet(ModelViewSet):
             queryset = queryset.filter(longitude__gte=longitude__gte)
 
         related_parent = self.request.query_params.get('related_parent', None)
-        if related_parent is not None and related_parent == 'null':
-            queryset = queryset.filter(related_parent=None)
+        if related_parent is not None:
+            if related_parent == 'null':
+                queryset = queryset.filter(related_parent=None)
+            else:
+                queryset = queryset.filter(related_parent_id=related_parent)
 
         return queryset
 
