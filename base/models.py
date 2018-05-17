@@ -6,6 +6,7 @@ from django.conf import settings
 from .signals import update_cache
 
 import os, uuid
+from decimal import Decimal
 
 
 class Base(models.Model):
@@ -17,7 +18,7 @@ class Base(models.Model):
     updated_time = models.DateTimeField(db_index=True, default=now, blank=True)
     delete_flag = models.BooleanField(db_index=True, default=False, help_text="Boolean")
     related_parent = models.ForeignKey('self', related_name='related_parent_name', on_delete=models.CASCADE, blank=True, null=True)
-    rate_average = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    rate_average = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.00'))
 
 post_save.connect(update_cache, sender=Base)
 
