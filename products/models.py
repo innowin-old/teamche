@@ -41,7 +41,6 @@ class Product(Base):
     product_related_category = models.ForeignKey(ProductCategory, db_index=True, on_delete=models.CASCADE, related_name='product_related_category_name')
     product_related_user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE, related_name='product_related_user_name')
     made_in_iran = models.BooleanField(db_index=True)
-    active_flag = models.BooleanField(db_index=True, default=False)
 
     def __str__(self):
         return self.title + " - " + self.product_related_store.title

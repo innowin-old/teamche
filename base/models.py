@@ -16,6 +16,7 @@ class Base(models.Model):
 
     created_time = models.DateTimeField(db_index=True, default=now, editable=False, blank=True)
     updated_time = models.DateTimeField(db_index=True, default=now, blank=True)
+    active_flag = models.BooleanField(db_index=True, default=False, help_text="Boolean")
     delete_flag = models.BooleanField(db_index=True, default=False, help_text="Boolean")
     visibility_flag = models.BooleanField(db_index=True, default=True, help_text="Boolean")
     related_parent = models.ForeignKey('self', db_index=True, related_name='related_parent_name', on_delete=models.CASCADE, blank=True, null=True)
@@ -35,7 +36,6 @@ class Comment(Base):
     comment_related_parent = models.ForeignKey(Base, db_index=True, on_delete=models.CASCADE, related_name="comment_related_parent_name", blank=True, null=True)
     comment_related_user = models.ForeignKey('users.User', db_index=True, on_delete=models.CASCADE, related_name='comment_related_user_name')
     text = models.TextField()
-    active_flag = models.BooleanField(db_index=True, default=True)
 
 post_save.connect(update_cache, sender=Comment)
 

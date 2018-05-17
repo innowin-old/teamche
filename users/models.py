@@ -35,7 +35,6 @@ class UpgradeRequest(Base):
     first_name = models.CharField(db_index=True, max_length=50)
     last_name = models.CharField(db_index=True, max_length=100)
     gender = models.CharField(db_index=True, max_length=6, choices=GENDER_CHOICES)
-    active_flag = models.BooleanField(db_index=True, default=False)
     type = models.CharField(db_index=True, max_length=8, choices=MEMBER_TYPE_CHOICES, default='specific')
 
     def member_type(self):
