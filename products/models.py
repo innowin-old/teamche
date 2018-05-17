@@ -24,6 +24,7 @@ post_save.connect(update_cache, sender=ProductCategory)
 
 class ProductBrand(Base):
     title = models.CharField(db_index=True, max_length=100)
+    description = models.TextField(blank=True, null=True)
     product_brand_related_store = models.ForeignKey(Store, db_index=True, on_delete=models.CASCADE, related_name='product_brand_related_store_name')
     product_brand_related_user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE, related_name='product_brand_related_user_name')
 
