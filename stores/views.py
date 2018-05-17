@@ -58,6 +58,10 @@ class StoreViewSet(ModelViewSet):
         if longitude__gte is not None:
             queryset = queryset.filter(longitude__gte=longitude__gte)
 
+        related_parent = self.request.query_params.get('related_parent', None)
+        if related_parent is not None and related_parent == 'null':
+            queryset = queryset.filter(related_parent=None)
+
         return queryset
 
     def get_serializer_class(self):
