@@ -3,7 +3,8 @@ from base.serializers import BaseSerializer
 
 from .models import (
     User,
-    UpgradeRequest
+    UpgradeRequest,
+    FCMToken
   )
 
 class UserAdminSerializer(BaseSerializer):
@@ -66,4 +67,15 @@ class UpgradeRequestUserSerializer(BaseSerializer):
           'upgrade_request_related_user': { 'read_only': True },
           'active_flag': { 'read_only': True },
           'updated_time': { 'read_only': True }
+        }
+
+
+class FCMTokenSerializer(BaseSerializer):
+    class Meta:
+        model = FCMToken
+        fields = '__all__'
+        extra_kwargs = {
+          'fcm_token_related_user': { 'read_only': True },
+          'active_flag': { 'read_only': True },
+          'update_time': { 'read_only': True }
         }

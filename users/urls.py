@@ -4,11 +4,13 @@ from rest_framework.routers import SimpleRouter
 
 from .views import (
     UserViewSet,
-    UpgradeRequestViewSet
+    UpgradeRequestViewSet,
+    FCMTokenViewSet
   )
 
 router = SimpleRouter()
 router.register(r'upgrade-requests', UpgradeRequestViewSet, 'users-upgrade-requests')
+router.register(r'fcm-tokens', FCMTokenViewSet, 'users-fcm-tokens')
 router.register(r'', UserViewSet, 'users')
 
 urlpatterns = [

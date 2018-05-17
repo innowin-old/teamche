@@ -6,7 +6,8 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from .models import (
     User,
-    UpgradeRequest
+    UpgradeRequest,
+    FCMToken
   )
 
 from .serializers import (
@@ -14,7 +15,8 @@ from .serializers import (
     UserAdminSerializer,
     UpgradeRequestSerializer,
     UpgradeRequestAdminSerializer,
-    UpgradeRequestUserSerializer
+    UpgradeRequestUserSerializer,
+    FCMTokenSerializer
   )
 
 
@@ -55,3 +57,17 @@ class UpgradeRequestViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(upgrade_request_related_user=self.request.user)
+
+
+class FCMTokenViewSet(ModelViewSet):
+    filter_fields = ['fcm_token_related_user', 'token']
+
+    def get_queryset(self):
+        queryset = FCMToken.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        return FCMTokenSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(fcm_token_related_user=self.request.user)
