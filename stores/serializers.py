@@ -45,9 +45,10 @@ class StoreSerializer(BaseSerializer):
         }
 
     def update(self, instance, validated_data):
-        if validated_data.get('visibility_flag', None) != None and validated_date.get('visibility_flag', None) != instance.visibility_flag:
+        if validated_data.get('visibility_flag', None) != None:
             instance.visibility_flag = validated_data.get('visibility_flag', None)
             instance.save()
+            return instance
         else:
             if Store.objects.filter(related_parent_id=instance.id, delete_flag=False).count() > 0:
                 model = Store.objects.filter(related_parent_id=instance.id, delete_flag=False)[0]
