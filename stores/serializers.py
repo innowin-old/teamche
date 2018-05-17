@@ -47,23 +47,24 @@ class StoreSerializer(BaseSerializer):
     def update(self, instance, validated_data):
         instance.visibility_flag = validated_data.get('visibility_flag', instance.visibility_flag)
         instance.save()
-        if Store.objects.filter(related_parent_id=instance.id, delete_flag=False).count() > 0:
-            model = Store.objects.filter(related_parent_id=instance.id, delete_flag=False)[0]
-        else:
-            model = Store()
-        model.title = validated_data.get('title', instance.title)
-        model.description = validated_data.get('description', instance.description)
-        model.store_related_category = validated_data.get('store_related_category', instance.store_related_category)
-        model.store_related_owner = validated_data.get('store_related_owner', instance.store_related_owner)
-        model.store_related_user = validated_data.get('store_related_user', instance.store_related_user)
-        model.phone_number = validated_data.get('phone_number', instance.phone_number)
-        model.latitude = validated_data.get('latitude', instance.latitude)
-        model.longitude = validated_data.get('longitude', instance.longitude)
-        model.address = validated_data.get('address', instance.address)
-        model.related_logo = validated_data.get('related_logo', instance.related_logo)
-        model.related_parent_id = instance.id
-        model.save()
-        return model
+        if instance.visibility_flag == validated_data.get('visibility_flag', instance.visibility_flag):
+            if Store.objects.filter(related_parent_id=instance.id, delete_flag=False).count() > 0:
+                model = Store.objects.filter(related_parent_id=instance.id, delete_flag=False)[0]
+            else:
+                model = Store()
+            model.title = validated_data.get('title', instance.title)
+            model.description = validated_data.get('description', instance.description)
+            model.store_related_category = validated_data.get('store_related_category', instance.store_related_category)
+            model.store_related_owner = validated_data.get('store_related_owner', instance.store_related_owner)
+            model.store_related_user = validated_data.get('store_related_user', instance.store_related_user)
+            model.phone_number = validated_data.get('phone_number', instance.phone_number)
+            model.latitude = validated_data.get('latitude', instance.latitude)
+            model.longitude = validated_data.get('longitude', instance.longitude)
+            model.address = validated_data.get('address', instance.address)
+            model.related_logo = validated_data.get('related_logo', instance.related_logo)
+            model.related_parent_id = instance.id
+            model.save()
+            return model
 
 
 class StoreVisitDetailSerializer(BaseSerializer):

@@ -54,19 +54,20 @@ class ProductSerializer(BaseSerializer):
     def update(self, instance, validated_data):
         instance.visibility_flag = validated_data.get('visibility_flag', instance.visibility_flag)
         instance.save()
-        if Product.objects.filter(related_parent_id=instance.id, active_flag=True).count() > 0:
-            model = Product.objects.filter(related_parent_id=instance.id, active_flag=True)[0]
-        else:
-            model = Product()
-        model.title = validated_data.get('title', instance.title)
-        model.product_related_store = validated_data.get('product_related_store', instance.product_related_store)
-        model.brand = validated_data.get('brand', instance.brand)
-        model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
-        model.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
-        model.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
-        model.realted_parent = instance.id
-        model.save()
-        return model
+        if instance.visibility_flag == validated_data.get('visibility_flag', instance.visibility_flag):
+            if Product.objects.filter(related_parent_id=instance.id, active_flag=True).count() > 0:
+                model = Product.objects.filter(related_parent_id=instance.id, active_flag=True)[0]
+            else:
+                model = Product()
+            model.title = validated_data.get('title', instance.title)
+            model.product_related_store = validated_data.get('product_related_store', instance.product_related_store)
+            model.brand = validated_data.get('brand', instance.brand)
+            model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
+            model.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
+            model.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
+            model.realted_parent = instance.id
+            model.save()
+            return model
 
 
 class ProductAdminSerializer(BaseSerializer):
