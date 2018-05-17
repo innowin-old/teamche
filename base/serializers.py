@@ -65,6 +65,18 @@ class RateSerializer(BaseSerializer):
           'rate_related_user': { 'read_only': True }
         }
 
+    def create(self, validated_data):
+        if Rate.objects.filter(rate_related_parent=validated_data.get('rate_related_parent', None), rate_related_user=validated_data.get('rate_related_user', None)).count() > 0:
+            raise ValueError('This user rated before')
+        instance = Rate.objects.create(**validated_data)
+        parent_instance = instance.rate.related_parent
+        rates = Rate.objects.filter(rate_related_parent=instance.rate_related_parent, delete_flag=False)
+        sum = 0
+        for rate in rates:
+            sum += rate.value
+        parent_instance.rate_average = sum / rates.count()
+        return instance
+
 
 class StoreDetailSerializer(BaseSerializer):
     images = ReadOnlyField()
