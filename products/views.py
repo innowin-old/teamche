@@ -61,11 +61,19 @@ class ProductBrandViewSet(ModelViewSet):
 
 
 class ProductViewSet(ModelViewSet):
-    filter_fields = ['id', 'title', 'product_related_store', 'brand', 'product_related_category', 'product_related_user', 'made_in_iran', 'related_parent']
+    filter_fields = ['id', 'title', 'product_related_store', 'brand', 'product_related_category', 'product_related_user', 'made_in_iran']
     ordering_fields = '__all__'
 
     def get_queryset(self):
         queryset = Product.objects.filter(Q(delete_flag=False) | Q(active_flag=True) | Q(active_flag=False, product_related_user=self.request.user))
+
+        related_parent = self.request.query_params.get('related_parent', None)
+        if related_parent is not None:
+            if related_parent == 'null':
+                queryset = queryset.filter(related_parent=None)
+            else:
+                queryset = queryset.filter(related_parent_id=related_parent)
+
         return queryset
 
     def get_serializer_class(self):
