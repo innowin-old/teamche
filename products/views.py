@@ -5,6 +5,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
+from rest_framework.decorators import detail_route
+
 from .models import (
   ProductCategory,
   ProductBrand,
@@ -77,6 +79,29 @@ class ProductViewSet(ModelViewSet):
         serializer.save(product_related_user=self.request.user)
         if ProductBrand.objects.filter(title=data.get('brand', ''), product_brand_related_store_id=data.get('product_related_store', ''), product_brand_related_user=self.request.user).count() == 0:
             instance = ProductBrand.objects.create(title=data.get('brand', ''), product_brand_related_store_id=data.get('product_related_store', ''), product_brand_related_user=self.request.user)
+
+    @detail_route(methods=['post'])
+    def accept_update(self, request, pk=None):
+        update_instance = self.get_object()
+        if update_instance.delete_falg == False:
+            instance = update_instance.related_parent
+            instance = update_instance
+            instance.related_parent = None
+            instance.active_flag = True
+            instance.save()
+            update_instance.delete_falg = True
+            update_instance.save()
+            serializer = ProductSerializer(instance)
+            return serializer.data
+        else:
+            return Response({'status': 'Update request not found'})
+
+    @detail_route(methods=['post'])
+    def deny_update(self, request, pk=None):
+        update_instance = self.get_object()
+        update_instance.delete_flag = True
+        update_instance.save()
+        return Response({'status': 'Update request denied'})
 
 
 class ProductPriceViewSet(ModelViewSet):

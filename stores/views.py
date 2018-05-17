@@ -4,6 +4,7 @@ from django.db.models import Q
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import detail_route, list_route
+from rest_framework.response import Response
 
 from .models import (
     StoreCategory,
@@ -82,6 +83,13 @@ class StoreViewSet(ModelViewSet):
             return Response(serializer.data)
         else:
             return Response({'status': 'Update Request Denied Before'})
+
+    @detail_route(methods=['post'])
+    def deny_update(self, request, pk=None):
+        update_instance = self.get_object()
+        update_instance.delete_falg = True
+        update_instance.save()
+        return Response({'status': 'Update Request Denied'})
 
 
 class StoreVisitViewSet(ModelViewSet):
