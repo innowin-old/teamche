@@ -17,60 +17,61 @@ class Base(models.Model):
     created_time = models.DateTimeField(db_index=True, default=now, editable=False, blank=True)
     updated_time = models.DateTimeField(db_index=True, default=now, blank=True)
     delete_flag = models.BooleanField(db_index=True, default=False, help_text="Boolean")
-    related_parent = models.ForeignKey('self', related_name='related_parent_name', on_delete=models.CASCADE, blank=True, null=True)
-    rate_average = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.00'))
+    visibility_flag = models.BooleanField(db_index=True, default=True, help_text="Boolean")
+    related_parent = models.ForeignKey('self', db_index=True, related_name='related_parent_name', on_delete=models.CASCADE, blank=True, null=True)
+    rate_average = models.DecimalField(db_index=True, max_digits=5, decimal_places=2, default=Decimal('0.00'))
 
 post_save.connect(update_cache, sender=Base)
 
 
 class Sms(Base):
-    phone_number = models.CharField(max_length=11)
-    code = models.CharField(max_length=5)
+    phone_number = models.CharField(db_index=True, max_length=11)
+    code = models.CharField(db_index=True, max_length=5)
 
 post_save.connect(update_cache, sender=Sms)
 
 
 class Comment(Base):
-    comment_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name="comment_related_parent_name", blank=True, null=True)
-    comment_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='comment_related_user_name')
+    comment_related_parent = models.ForeignKey(Base, db_index=True, on_delete=models.CASCADE, related_name="comment_related_parent_name", blank=True, null=True)
+    comment_related_user = models.ForeignKey('users.User', db_index=True, on_delete=models.CASCADE, related_name='comment_related_user_name')
     text = models.TextField()
-    active_flag = models.BooleanField(default=True)
+    active_flag = models.BooleanField(db_index=True, default=True)
 
 post_save.connect(update_cache, sender=Comment)
 
 
 class Rate(Base):
-    rate_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='rate_related_parent_name')
-    rate_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='rate_related_user_name')
-    title = models.CharField(max_length=50, blank=True, null=True)
-    value = models.DecimalField(max_digits=6, decimal_places=2)
+    rate_related_parent = models.ForeignKey(Base, db_index=True, on_delete=models.CASCADE, related_name='rate_related_parent_name')
+    rate_related_user = models.ForeignKey('users.User', db_index=True, on_delete=models.CASCADE, related_name='rate_related_user_name')
+    title = models.CharField(db_index=True, max_length=50, blank=True, null=True)
+    value = models.DecimalField(db_index=True, max_digits=6, decimal_places=2)
 
 post_save.connect(update_cache, sender=Rate)
 
 
 class Favorite(Base):
-    favorite_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='favorite_related_parent_name')
-    favorite_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='favorite_related_user_name')
+    favorite_related_parent = models.ForeignKey(Base, db_index=True, on_delete=models.CASCADE, related_name='favorite_related_parent_name')
+    favorite_related_user = models.ForeignKey('users.User', db_index=True, on_delete=models.CASCADE, related_name='favorite_related_user_name')
 
 post_save.connect(update_cache, sender=Favorite)
 
 
 class Discount(Base):
-    discount_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='discount_related_parent_name')
-    discount_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='discount_related_user_name')
-    discount_value = models.IntegerField()
+    discount_related_parent = models.ForeignKey(Base, db_index=True, on_delete=models.CASCADE, related_name='discount_related_parent_name')
+    discount_related_user = models.ForeignKey('users.User', db_index=True, on_delete=models.CASCADE, related_name='discount_related_user_name')
+    discount_value = models.IntegerField(db_index=True)
 
 post_save.connect(update_cache, sender=Discount)
 
 
 class ViewModel(Base):
-    view_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='view_related_parent_name')
-    view_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='view_related_user_name')
+    view_related_parent = models.ForeignKey(Base, db_index=True, on_delete=models.CASCADE, related_name='view_related_parent_name')
+    view_related_user = models.ForeignKey('users.User', db_index=True, on_delete=models.CASCADE, related_name='view_related_user_name')
 
 
 class Report(Base):
-    report_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='report_related_parent_name')
-    report_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='report_related_user_name')
+    report_related_parent = models.ForeignKey(Base, db_index=True, on_delete=models.CASCADE, related_name='report_related_parent_name')
+    report_related_user = models.ForeignKey('users.User', db_index=True, on_delete=models.CASCADE, related_name='report_related_user_name')
     report_text = models.TextField(blank=True, null=True)
 
 post_save.connect(update_cache, sender=Report)
@@ -83,8 +84,8 @@ def get_upload_path(media, filename):
 
 
 class File(Base):
-    file_related_parent = models.ForeignKey(Base, on_delete=models.CASCADE, related_name='file_related_parent_name', blank=True, null=True)
-    file_related_user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='file_related_user_name')
+    file_related_parent = models.ForeignKey(Base, db_index=True, on_delete=models.CASCADE, related_name='file_related_parent_name', blank=True, null=True)
+    file_related_user = models.ForeignKey('users.User', db_index=True, on_delete=models.CASCADE, related_name='file_related_user_name')
     file_path = models.FileField(upload_to=get_upload_path)
 
     @property
@@ -95,8 +96,8 @@ post_save.connect(update_cache, sender=File)
 
 
 class Slider(Base):
-    title = models.CharField(max_length=50, blank=True, null=True)
-    link = models.CharField(max_length=200, blank=True, null=True)
+    title = models.CharField(db_index=True, max_length=50, blank=True, null=True)
+    link = models.CharField(db_index=True, max_length=200, blank=True, null=True)
 
     def image(self):
         file_instance = File.objects.filter(file_related_parent=self)
@@ -109,8 +110,8 @@ post_save.connect(update_cache, sender=Slider)
 
 
 class TopFilter(Base):
-    title = models.CharField(max_length=50, blank=True, null=True)
-    link = models.CharField(max_length=200)
-    order = models.IntegerField()
+    title = models.CharField(db_index=True, max_length=50, blank=True, null=True)
+    link = models.CharField(db_index=True, max_length=200)
+    order = models.IntegerField(db_index=True)
 
 post_save.connect(update_cache, sender=TopFilter)

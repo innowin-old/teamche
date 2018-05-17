@@ -15,8 +15,8 @@ class User(AbstractUser, Base):
       ('specific', 'Specific'),
       ('gold', 'Gold')
     )
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='male')
-    type = models.CharField(max_length=8, choices=MEMBER_TYPE_CHOICES, default='normal')
+    gender = models.CharField(db_index=True, max_length=6, choices=GENDER_CHOICES, default='male')
+    type = models.CharField(db_index=True, max_length=8, choices=MEMBER_TYPE_CHOICES, default='normal')
 
 post_save.connect(update_cache, sender=User)
 
@@ -31,12 +31,12 @@ class UpgradeRequest(Base):
       ('specific', 'Specific'),
       ('gold', 'Gold')
     )
-    upgrade_request_related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='upgrade_request_related_user_name')
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=100)
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
-    active_flag = models.BooleanField(default=False)
-    type = models.CharField(max_length=8, choices=MEMBER_TYPE_CHOICES, default='specific')
+    upgrade_request_related_user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE, related_name='upgrade_request_related_user_name')
+    first_name = models.CharField(db_index=True, max_length=50)
+    last_name = models.CharField(db_index=True, max_length=100)
+    gender = models.CharField(db_index=True, max_length=6, choices=GENDER_CHOICES)
+    active_flag = models.BooleanField(db_index=True, default=False)
+    type = models.CharField(db_index=True, max_length=8, choices=MEMBER_TYPE_CHOICES, default='specific')
 
     def member_type(self):
         return self.upgrade_request_related_user.type

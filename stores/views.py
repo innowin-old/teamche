@@ -40,7 +40,7 @@ class StoreViewSet(ModelViewSet):
         if self.request and self.request.user and self.request.user.is_superuser:
             queryset = Store.objects.filter(delete_flag=False).order_by('-pk')
         else:
-            queryset = Store.objects.filter(Q(delete_flag=False, active_flag=True) | Q(delete_flag=False, active_flag=False, store_related_user=self.request.user)).order_by('-pk')
+            queryset = Store.objects.filter(Q(delete_flag=False, active_flag=True, visibility_flag=True) | Q(delete_flag=False, active_flag=False, store_related_user=self.request.user)).order_by('-pk')
 
         latitude__lte = self.request.query_params.get('latitude__lte', None)
         if latitude__lte is not None:
