@@ -42,3 +42,9 @@ class UpgradeRequest(Base):
         return self.upgrade_request_related_user.type
 
 post_save.connect(update_cache, sender=UpgradeRequest)
+
+
+
+class FCMToken(Base):
+    fcm_token_related_user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE, related_name='fcm_token_related_user_name')
+    token = models.CharField(max_length=256)
