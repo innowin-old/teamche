@@ -16,7 +16,8 @@ from .serializers import (
     UpgradeRequestSerializer,
     UpgradeRequestAdminSerializer,
     UpgradeRequestUserSerializer,
-    FCMTokenSerializer
+    FCMTokenSerializer,
+    FCMTokenAdminSerializer
   )
 
 
@@ -67,6 +68,8 @@ class FCMTokenViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
+        if self.request and self.request.user and self.request.user.is_superuser:
+            return FCMTokenAdminSerializer
         return FCMTokenSerializer
 
     def perform_create(self, serializer):

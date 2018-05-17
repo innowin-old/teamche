@@ -73,9 +73,15 @@ class UpgradeRequestUserSerializer(BaseSerializer):
 class FCMTokenSerializer(BaseSerializer):
     class Meta:
         model = FCMToken
-        fields = '__all__'
+        fields = ['fcm_token_related_user', 'token']
         extra_kwargs = {
           'fcm_token_related_user': { 'read_only': True },
           'active_flag': { 'read_only': True },
           'update_time': { 'read_only': True }
         }
+
+
+class FCMTokenAdminSerializer(BaseSerializer):
+    class Meta:
+        model = FCMToken
+        exclude = ['rate_averate']
