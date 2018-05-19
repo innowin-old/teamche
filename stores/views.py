@@ -34,7 +34,7 @@ class StoreCategoryViewSet(ModelViewSet):
 
 class StoreViewSet(ModelViewSet):
     filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner', 'rate_average']
-    ordering_fields = ['id', 'title', 'created_time']
+    ordering_fields = ['id', 'title', 'created_time', 'rate_average']
 
     def get_queryset(self):
         if self.request and self.request.user and self.request.user.is_superuser:
