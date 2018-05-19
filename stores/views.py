@@ -33,7 +33,7 @@ class StoreCategoryViewSet(ModelViewSet):
 
 
 class StoreViewSet(ModelViewSet):
-    filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner']
+    filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner', 'rate_average']
     ordering_fields = ['id', 'title', 'created_time']
 
     def get_queryset(self):
