@@ -190,8 +190,8 @@ def code_verify(request):
         if Sms.objects.filter(phone_number=request.POST.get('phone_number', ''), code=request.POST.get('code', ''), delete_flag=False).count() >= 1:
             sms = Sms.objects.filter(phone_number=request.POST.get('phone_number', ''), code=request.POST.get('code', ''), delete_flag=False)[0]
             sms.delete_flag = True
-            if User.objects.filter(username=sms.phone_number).count() > 0:
-                user = User.objects.filter(username=sms.phone_number)[0]
+            if User.objects.filter(username=sms.phone_number, delete_flag=False, active_flag=True).count() > 0:
+                user = User.objects.filter(username=sms.phone_number, delete_flag=False, active_flag=True)[0]
             else:
                 user = User.objects.create(username=sms.phone_number, password='!')
             payload = jwt_payload_handler(user)

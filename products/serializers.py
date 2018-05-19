@@ -56,6 +56,10 @@ class ProductSerializer(BaseSerializer):
             instance.visibility_flag = validated_data.get('visibility_flag', instance.visibility_flag)
             instance.save()
             return instance
+        elif validated_data.get('active_flag', None) != None:
+            instance.active_flag = validated_data.get('active_flag', instance.active_flag)
+            instance.save()
+            return instance
         else:
             if Product.objects.filter(related_parent_id=instance.id, active_flag=True).count() > 0:
                 model = Product.objects.filter(related_parent_id=instance.id, active_flag=True)[0]
