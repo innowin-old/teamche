@@ -46,7 +46,7 @@ class ProductSerializer(BaseSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'title', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category', 'images', 'discount', 'price', 'active_flag', 'visibility_flag']
+        fields = ['id', 'title', 'description', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category', 'images', 'discount', 'price', 'active_flag', 'visibility_flag']
         extra_kwargs = {
           'product_related_user': { 'read_only': True }
         }
