@@ -75,6 +75,14 @@ class ProductViewSet(ModelViewSet):
             else:
                 queryset = queryset.filter(related_parent_id=related_parent)
 
+        title__contains = self.request.query_params.get('title__contains', None)
+        if title__contains is not None:
+            queryset = queryset.filter(title__icontains=title__contains)
+
+        description__contains = self.request.query_params.get('description__contains', None)
+        if description__contains is not None:
+            queryset = queryset.filter(description__icontains=description__contains)
+
         return queryset
 
     def get_serializer_class(self):
