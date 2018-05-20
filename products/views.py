@@ -61,8 +61,9 @@ class ProductBrandViewSet(ModelViewSet):
 
 
 class ProductViewSet(ModelViewSet):
-    filter_fields = ['id', 'title', 'product_related_store', 'brand', 'product_related_category', 'product_related_user', 'made_in_iran', 'rate_average']
+    filter_fields = ['id', 'title', 'description', 'product_related_store', 'brand', 'product_related_category', 'product_related_user', 'made_in_iran', 'rate_average']
     ordering_fields = '__all__'
+    search_fields = ['title', 'description']
 
     def get_queryset(self):
         queryset = Product.objects.filter(Q(delete_flag=False) | Q(active_flag=True) | Q(active_flag=False, product_related_user=self.request.user))
