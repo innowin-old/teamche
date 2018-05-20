@@ -62,7 +62,7 @@ class Product(Base):
 
     @property
     def price(self):
-        price_instance = ProductPrice.objects.filter(product_price_related_product=self).order_by('-pk')
+        price_instance = ProductPrice.objects.filter(product_price_related_product=self, delete_flag=False).order_by('-pk')
         if price_instance.count() > 0:
             return price_instance[0].value
         return None
