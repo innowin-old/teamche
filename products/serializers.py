@@ -108,3 +108,11 @@ class ProductOfferSerializer(BaseSerializer):
     class Meta:
         model = ProductOffer
         fields = '__all__'
+
+
+class ProductOfferListSerializer(BaseSerializer):
+    product_offer_related_product = ProductSerializer()
+
+    class Meta:
+        model = ProductOffer
+        fields = '__all__'

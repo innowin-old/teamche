@@ -24,7 +24,8 @@ from .serializers import (
   ProductAdminSerializer,
   ProductPriceSerializer,
   ProductPriceAdminSerializer,
-  ProductOfferSerializer
+  ProductOfferSerializer,
+  ProductOfferListSerializer
 )
 
 
@@ -149,6 +150,6 @@ class ProductOfferViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.request and self.request.user and self.requset.user.is_superuser:
-            return ProductOfferSerializer
+        if self.action == 'list' or self.action == 'retrieve':
+            return ProductOfferListSerializer
         return ProductOfferSerializer
