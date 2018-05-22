@@ -64,7 +64,7 @@ class Product(Base):
     def price(self):
         price_instance = ProductPrice.objects.filter(product_price_related_product=self, delete_flag=False).order_by('-pk')
         if price_instance.count() > 0:
-            return price_instance[0].value
+            return price_instance[0].amount
         return None
 
 post_save.connect(update_cache, sender=Product)
