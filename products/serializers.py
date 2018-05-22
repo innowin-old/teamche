@@ -121,7 +121,7 @@ class ProductOfferSerializer(BaseSerializer):
 
 
 class ProductOfferListSerializer(BaseSerializer):
-    product_offer_related_product = ProductSerializer()
+    product_offer_related_product = ProductListSerializer()
 
     class Meta:
         model = ProductOffer
