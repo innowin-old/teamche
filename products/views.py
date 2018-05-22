@@ -90,10 +90,10 @@ class ProductViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.action == 'list' or self.action == 'retrieve':
-            return ProductListSerializer
         if self.request and self.request.user and self.request.user.is_superuser:
             return ProductAdminSerializer
+        if self.action == 'list' or self.action == 'retrieve':
+            return ProductListSerializer
         return ProductSerializer
 
     def perform_create(self, serializer):

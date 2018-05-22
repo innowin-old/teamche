@@ -44,6 +44,7 @@ class ProductListSerializer(BaseSerializer):
     images = ReadOnlyField()
     discount = ReadOnlyField()
     price = ReadOnlyField()
+    product_related_category = ProductCategorySerializer()
 
     class Meta:
         model = Product
