@@ -5,7 +5,8 @@ from .models import (
   ProductCategory,
   ProductBrand,
   Product,
-  ProductPrice
+  ProductPrice,
+  ProductOffer
 )
 
 
@@ -100,4 +101,10 @@ class ProductPriceSerializer(BaseSerializer):
 class ProductPriceAdminSerializer(BaseSerializer):
     class Meta:
         model = ProductPrice
+        fields = '__all__'
+
+
+class ProductOfferSerializer(BaseSerializer):
+    class Meta:
+        model = ProductOffer
         fields = '__all__'

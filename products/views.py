@@ -11,7 +11,8 @@ from .models import (
   ProductCategory,
   ProductBrand,
   Product,
-  ProductPrice
+  ProductPrice,
+  ProductOffer
 )
 
 from .serializers import (
@@ -22,7 +23,8 @@ from .serializers import (
   ProductSerializer,
   ProductAdminSerializer,
   ProductPriceSerializer,
-  ProductPriceAdminSerializer
+  ProductPriceAdminSerializer,
+  ProductOfferSerializer
 )
 
 
@@ -136,3 +138,17 @@ class ProductPriceViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(product_price_related_user=self.request.user)
+
+
+class ProductOfferViewSet(ModelViewSet):
+    filter_fields = ['start_date', 'end_date']
+    ordering_fields = '__all__'
+
+    def get_queryset(self):
+        queryset = ProductOffer.objects.filter(delete_flag=False)
+        return queryset
+
+    def get_serializer_class(self):
+        if self.request and self.request.user and self.requset.user.is_superuser:
+            return ProductOfferSerializer
+        return ProductOfferSerializer

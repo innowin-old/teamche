@@ -76,3 +76,11 @@ class ProductPrice(Base):
     product_price_related_user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE, related_name='product_price_related_user')
 
 post_save.connect(update_cache, sender=ProductPrice)
+
+
+
+class ProductOffer(Base):
+    product_offer_related_product = models.ForeignKey(Product, db_index=True, on_delete=models.CASCADE, related_name='product_offer_related_product_name')
+    reason = models.TextField()
+    start_date = models.IntegerField(db_index=True)
+    end_date = models.IntegerField(db_index=True)

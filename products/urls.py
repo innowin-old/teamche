@@ -5,7 +5,8 @@ from .views import (
   ProductCategoryViewSet,
   ProductBrandViewSet,
   ProductViewSet,
-  ProductPriceViewSet
+  ProductPriceViewSet,
+  ProductOfferViewSet
 )
 
 
@@ -13,6 +14,7 @@ router = SimpleRouter()
 router.register(r'categories', ProductCategoryViewSet, 'product-categories')
 router.register(r'brands', ProductBrandViewSet, 'product-brands')
 router.register(r'prices', ProductPriceViewSet, 'product-prices')
+router.register(r'offers', ProductOfferViewSet, 'product-offers')
 router.register(r'', ProductViewSet, 'products')
 
 urlpatterns = [
