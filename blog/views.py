@@ -5,6 +5,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
+from base.views import BaseViewSet
+
 from .models import (
   Post
 )
@@ -15,7 +17,7 @@ from .serializers import (
 )
 
 
-class PostViewSet(ModelViewSet):
+class PostViewSet(BaseViewSet):
     filter_fields = ['id', 'title', 'text', 'created_time']
 
     def get_queryset(self):

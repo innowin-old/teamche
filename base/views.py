@@ -35,7 +35,44 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from rest_framework_jwt.utils import jwt_payload_handler, jwt_encode_handler
 
-class SmsViewSet(ModelViewSet):
+
+class BaseViewSet(ModelViewSet):
+    def destroy(self, request, *args, **kwargs):
+        """class DynamicDeleteSerializer(ModelSerializer, BaseSerializer):
+            class Meta:
+                model = self.get_serializer_class().Meta.model
+                fields = []
+
+            def validate(self, attrs):
+                if self.instance.delete_flag:
+                    raise ValidationError('Ths selected object does not exist or already deleted.')
+                return attrs"""
+
+        try:
+            instance = self.get_object()
+            # serializer = DynamicDeleteSerializer(instance, request.data)
+            # serializer.is_valid(raise_exception=True)
+            instance.delete_flag = True
+            instance.save()
+            #return Response({status: "SUCCESS"}, status=status.HTTP_200_OK)
+            response = HttpResponse(json.dumps({'message': 'record deleted.'}),
+                content_type='application/json')
+            response.status_code = 200
+            return response
+        except Exception as e:
+            if type(e) is ValidationError:
+                raise e
+
+        return Response({
+            "errors": [{
+                "status": 1,
+                "key": "non_field_errors",
+                "detail": "The selected object does not exist or already deleted."
+            }]
+        })
+
+
+class SmsViewSet(BaseViewSet):
     permission_classes = [AllowAny]
     filter_fields = ['phone_number', 'code']
 
@@ -46,7 +83,7 @@ class SmsViewSet(ModelViewSet):
     def get_serializer_class(self):
         return SmsSerializer
 
-class CommentViewSet(ModelViewSet):
+class CommentViewSet(BaseViewSet):
     permission_classes = [AllowAny]
     filter_fields = ['text', 'comment_related_parent']
 
@@ -63,7 +100,7 @@ class CommentViewSet(ModelViewSet):
         serializer.save(comment_related_user=self.request.user)
 
 
-class RateViewSet(ModelViewSet):
+class RateViewSet(BaseViewSet):
     filter_fields = ['title', 'value', 'rate_related_parent']
 
     def get_queryset(self):
@@ -77,7 +114,7 @@ class RateViewSet(ModelViewSet):
         serializer.save(rate_related_user=self.request.user)
 
 
-class FavoriteViewSet(ModelViewSet):
+class FavoriteViewSet(BaseViewSet):
     filter_fields = ['favorite_related_parent', 'favorite_related_user']
 
     def get_queryset(self):
@@ -93,7 +130,7 @@ class FavoriteViewSet(ModelViewSet):
         serializer.save(favorite_related_user=self.request.user)
 
 
-class DiscountViewSet(ModelViewSet):
+class DiscountViewSet(BaseViewSet):
     filter_fields = ['discount_value', 'discount_related_parent']
 
     def get_queryset(self):
@@ -107,7 +144,7 @@ class DiscountViewSet(ModelViewSet):
         serializer.save(discount_related_user=self.request.user)
 
 
-class ViewModelViewSet(ModelViewSet):
+class ViewModelViewSet(BaseViewSet):
     filter_fields = ['view_model_related_parent', 'view_model_related_user']
 
     def get_queryset(self):
@@ -121,7 +158,7 @@ class ViewModelViewSet(ModelViewSet):
         serializer.save(view_model_related_user=self.request.user)
 
 
-class ReportViewSet(ModelViewSet):
+class ReportViewSet(BaseViewSet):
     filter_fields = ['report_text', 'report_related_parent']
 
     def get_queryset(self):
@@ -135,7 +172,7 @@ class ReportViewSet(ModelViewSet):
         serializer.save(report_related_user=self.request.user)
 
 
-class FileViewSet(ModelViewSet):
+class FileViewSet(BaseViewSet):
     filter_fields = ['file_related_parent', 'file_related_user']
 
     def get_queryset(self):
@@ -149,7 +186,7 @@ class FileViewSet(ModelViewSet):
         serializer.save(file_related_user=self.request.user)
 
 
-class SliderViewSet(ModelViewSet):
+class SliderViewSet(BaseViewSet):
     filter_fields = ['title', 'link']
 
     def get_queryset(self):
@@ -160,7 +197,7 @@ class SliderViewSet(ModelViewSet):
         return SliderSerializer
 
 
-class TopFilterViewSet(ModelViewSet):
+class TopFilterViewSet(BaseViewSet):
     filter_fields = ['title', 'link', 'order']
 
     def get_queryset(self):

@@ -4,6 +4,9 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
+
+from base.views import BaseViewSet
+
 from .models import (
     User,
     UpgradeRequest,
@@ -21,7 +24,7 @@ from .serializers import (
   )
 
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(BaseViewSet):
     filter_fields = ['id', 'username', 'first_name', 'last_name', 'email', 'gender', 'type']
     search_fields = ['username', 'first_name', 'last_name', 'email']
 
@@ -44,7 +47,7 @@ class UserViewSet(ModelViewSet):
             return Response(e)
 
 
-class UpgradeRequestViewSet(ModelViewSet):
+class UpgradeRequestViewSet(BaseViewSet):
     filter_fields = ['upgrade_request_related_user', 'first_name', 'last_name', 'gender']
 
     def get_queryset(self):
@@ -60,7 +63,7 @@ class UpgradeRequestViewSet(ModelViewSet):
         serializer.save(upgrade_request_related_user=self.request.user)
 
 
-class FCMTokenViewSet(ModelViewSet):
+class FCMTokenViewSet(BaseViewSet):
     filter_fields = ['fcm_token_related_user', 'token']
 
     def get_queryset(self):

@@ -6,6 +6,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 
+from base.views import BaseViewSet
+
 from .models import (
     StoreCategory,
     Store,
@@ -21,7 +23,7 @@ from .serializers import (
 )
 
 
-class StoreCategoryViewSet(ModelViewSet):
+class StoreCategoryViewSet(BaseViewSet):
     filter_fields = ['title']
 
     def get_queryset(self):
@@ -32,7 +34,7 @@ class StoreCategoryViewSet(ModelViewSet):
         return StoreCategorySerializer
 
 
-class StoreViewSet(ModelViewSet):
+class StoreViewSet(BaseViewSet):
     filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner', 'rate_average']
     ordering_fields = ['id', 'title', 'created_time', 'rate_average']
     search_fields = ['title', 'description']
@@ -120,7 +122,7 @@ class StoreViewSet(ModelViewSet):
         return Response({'status': 'Update Request Denied'})
 
 
-class StoreVisitViewSet(ModelViewSet):
+class StoreVisitViewSet(BaseViewSet):
     filter_fields = ['store_visit_related_store', 'store_visit_related_user', 'active_flag', 'delete_flag']
 
     def get_queryset(self):

@@ -7,6 +7,8 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 
+from base.views import BaseViewSet
+
 from .models import (
   ProductCategory,
   ProductBrand,
@@ -31,7 +33,7 @@ from .serializers import (
 )
 
 
-class ProductCategoryViewSet(ModelViewSet):
+class ProductCategoryViewSet(BaseViewSet):
     filter_fields = ['title', 'product_category_related_parent', 'product_category_related_user', 'product_category_related_store']
     ordering_fields = '__all__'
 
@@ -48,7 +50,7 @@ class ProductCategoryViewSet(ModelViewSet):
         serializer.save(product_category_related_user=self.request.user)
 
 
-class ProductBrandViewSet(ModelViewSet):
+class ProductBrandViewSet(BaseViewSet):
     filter_fields = ['title', 'product_brand_related_store', 'product_brand_related_user']
     ordering_fields = '__all__'
 
@@ -65,7 +67,7 @@ class ProductBrandViewSet(ModelViewSet):
         serializer.save(product_brand_related_user=self.request.user)
 
 
-class ProductViewSet(ModelViewSet):
+class ProductViewSet(BaseViewSet):
     filter_fields = ['id', 'title', 'description', 'product_related_store', 'brand', 'product_related_category', 'product_related_user', 'made_in_iran', 'rate_average']
     ordering_fields = '__all__'
     search_fields = ['title', 'description']
@@ -130,7 +132,7 @@ class ProductViewSet(ModelViewSet):
         return Response({'status': 'Update request denied'})
 
 
-class ProductPriceViewSet(ModelViewSet):
+class ProductPriceViewSet(BaseViewSet):
     filter_fields = ['product_price_related_product', 'amount', 'product_price_related_user']
     ordering_fields = '__all__'
 
@@ -147,7 +149,7 @@ class ProductPriceViewSet(ModelViewSet):
         serializer.save(product_price_related_user=self.request.user)
 
 
-class ProductOfferViewSet(ModelViewSet):
+class ProductOfferViewSet(BaseViewSet):
     filter_fields = ['start_date', 'end_date']
     ordering_fields = '__all__'
 

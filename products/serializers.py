@@ -44,7 +44,7 @@ class ProductBrandAdminSerializer(BaseSerializer):
 class StoreSerializer(BaseSerializer):
     class Meta:
         model = Store
-        fields = ['id', 'title']
+        fields = ['id', 'title', 'latitude', 'longitude']
 
 
 class ProductListSerializer(BaseSerializer):
@@ -52,6 +52,7 @@ class ProductListSerializer(BaseSerializer):
     discount = ReadOnlyField()
     price = ReadOnlyField()
     product_related_category = ProductCategorySerializer()
+    product_related_store = StoreSerializer()
 
     class Meta:
         model = Product
