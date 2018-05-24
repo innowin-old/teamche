@@ -23,6 +23,7 @@ from .serializers import (
   ProductSerializer,
   ProductListSerializer,
   ProductAdminSerializer,
+  ProductAdminListSerializer,
   ProductPriceSerializer,
   ProductPriceAdminSerializer,
   ProductOfferSerializer,
@@ -91,6 +92,8 @@ class ProductViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         if self.request and self.request.user and self.request.user.is_superuser:
+            if self.action == 'list' or self.action == 'retrieve':
+                return ProductAdminListSerializer
             return ProductAdminSerializer
         if self.action == 'list' or self.action == 'retrieve':
             return ProductListSerializer

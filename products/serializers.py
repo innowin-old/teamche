@@ -9,6 +9,7 @@ from .models import (
   ProductOffer
 )
 
+from stores.models import Store
 
 class ProductCategorySerializer(BaseSerializer):
     class Meta:
@@ -38,6 +39,12 @@ class ProductBrandAdminSerializer(BaseSerializer):
     class Meta:
         model = ProductBrand
         fields = '__all__'
+
+
+class StoreSerializer(BaseSerializer):
+    class Meta:
+        model = Store
+        fields = ['id', 'title']
 
 
 class ProductListSerializer(BaseSerializer):
@@ -88,11 +95,22 @@ class ProductSerializer(BaseSerializer):
             return model
 
 
-class ProductAdminSerializer(BaseSerializer):
+class ProductAdminListSerializer(BaseSerializer):
     images = ReadOnlyField()
     discount = ReadOnlyField()
     price = ReadOnlyField()
     product_related_category = ProductCategorySerializer()
+    product_related_store = StoreSerializer()
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
+class ProductAdminSerializer(BaseSerializer):
+    images = ReadOnlyField()
+    discount = ReadOnlyField()
+    price = ReadOnlyField()
 
     class Meta:
         model = Product
