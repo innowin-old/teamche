@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.db.models.signals import post_save
 from django.conf import settings
+from django.core.cache import cache
 
 from .signals import update_cache
 
