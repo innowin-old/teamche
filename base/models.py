@@ -9,6 +9,14 @@ import os, uuid
 from decimal import Decimal
 
 
+class BaseManager(models.Manager):
+    def get_queryset(self):
+        if not cache.get(self.model._meta.db_table):
+            cache.set(self.model._meta.db_table, super(BaseManager, self).get_queryset().filter(delete_flag=False),
+                      settings.CACHE_TIMEOUT)
+        return cache.get(self.model._meta.db_table)
+
+
 class Base(models.Model):
     class Meta:
         ordering = ["-pk"]
@@ -21,6 +29,8 @@ class Base(models.Model):
     visibility_flag = models.BooleanField(db_index=True, default=True, help_text="Boolean")
     related_parent = models.ForeignKey('self', db_index=True, related_name='related_parent_name', on_delete=models.CASCADE, blank=True, null=True)
     rate_average = models.DecimalField(db_index=True, max_digits=5, decimal_places=2, default=Decimal('0.00'))
+
+    objects = BaseManager()
 
 post_save.connect(update_cache, sender=Base)
 
