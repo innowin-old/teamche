@@ -54,7 +54,7 @@ class BaseViewSet(ModelViewSet):
             # serializer.is_valid(raise_exception=True)
             instance.delete_flag = True
             instance.save()
-            #return Response({status: "SUCCESS"}, status=status.HTTP_200_OK)
+            # return Response({status: "SUCCESS"}, status=status.HTTP_200_OK)
             response = HttpResponse(json.dumps({'message': 'record deleted.'}),
                 content_type='application/json')
             response.status_code = 200
@@ -230,7 +230,7 @@ def code_verify(request):
             if User.objects.filter(username=sms.phone_number, delete_flag=False, active_flag=True).count() > 0:
                 user = User.objects.filter(username=sms.phone_number, delete_flag=False, active_flag=True)[0]
             else:
-                user = User.objects.create(username=sms.phone_number, password='!')
+                user = User.objects.create(username=sms.phone_number, password='!', delete_flag=False, active_flag=True)
             payload = jwt_payload_handler(user)
             encoded_token = jwt_encode_handler(payload)
             sms.save()
