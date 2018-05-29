@@ -29,7 +29,7 @@ class UserViewSet(BaseViewSet):
     search_fields = ['username', 'first_name', 'last_name', 'email']
 
     def get_queryset(self):
-        queryset =  User.objects.all()
+        queryset =  User.objects.filter(delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
