@@ -98,6 +98,12 @@ class StoreViewSet(BaseViewSet):
         serializer = StoreDetailSerializer(instances, many=True)
         return Response(serializer.data)
 
+    @list_route(methods=['get'])
+    def update_confirmation(self, request):
+        instances = Store.objects.exclude(related_parent=None).filter(delete_flag=False, active_flag=False)
+        serializer = StoreDetailSerializer(instances, many=True)
+        return Response(serializer.data)
+
     @detail_route(methods=['post'])
     def accept_update(self, request, pk=None):
         update_instance = self.get_object()
