@@ -124,7 +124,7 @@ class StoreViewSet(BaseViewSet):
     def deny_update(self, request, pk=None):
         update_instance = self.get_object()
         if update_instance.related_parent != None:
-            update_instance.delete_falg = True
+            update_instance.delete_flag = True
             update_instance.save()
             return Response({'status': 'Update Request Denied'})
 
