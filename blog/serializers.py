@@ -10,6 +10,9 @@ class PostSerializer(BaseSerializer):
     class Meta:
         model = Post
         fields = ['id', 'title', 'text']
+        extra_kwargs = {
+          'post_related_user': { 'read_only': True }
+        }
 
 
 class PostAdminSerializer(BaseSerializer):
