@@ -116,7 +116,7 @@ class ProductViewSet(BaseViewSet):
 
     @list_route(methods=['get'])
     def update_confirmation(self, request):
-        instances = Product.objects.exclude(related_parent=None).filter(active_flag=Flase, delete_flag=False)
+        instances = Product.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
         serializer = ProductListSerializer(instances, many=True)
         return Response(serializer.data)
 
