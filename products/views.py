@@ -112,13 +112,13 @@ class ProductViewSet(BaseViewSet):
     def create_confirmation(self, request):
         instances = Product.objects.filter(related_parent=None, active_flag=False, delete_flag=False)
         serializer = ProductSerializer(instances, many=True)
-        return serializer.data
+        return Response(serializer.data)
 
     @list_route(methods=['get'])
     def update_confirmation(self, request):
         instances = Product.objects.exclude(related_parent=None).filter(active_flag=Flase, delete_flag=False)
         serializer = ProductSerializer(instances, many=True)
-        return serializer.data
+        return Response(serializer.data)
 
     @detail_route(methods=['post'])
     def accept_update(self, request, pk=None):
