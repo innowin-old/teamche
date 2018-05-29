@@ -34,12 +34,12 @@ class PostViewSet(BaseViewSet):
 
     @list_route(methods=['get'])
     def create_confirmation(self, request):
-        instances = Post.objects.filter(related_parent=None, active_flag=True, delete_flag=False)
+        instances = Post.objects.filter(related_parent=None, active_flag=False, delete_flag=False)
         serializer = PostSerializer(instances, many=True)
         return Response(serializer.data)
 
     @list_route(methods=['get'])
     def update_confirmation(self, request):
-        instances = Post.objects.exclude(related_parent=None, active_flag=True, delete_flag=False)
+        instances = Post.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
         serializer = PostSerializer(instances, many=True)
         return Response(serializer.data)
