@@ -43,3 +43,26 @@ class PostViewSet(BaseViewSet):
         instances = Post.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
         serializer = PostSerializer(instances, many=True)
         return Response(serializer.data)
+
+    @detail_route(methods=['post'])
+    def accept(self, request, pk=None):
+        instance = self.get_object()
+        if instance.related_parent != None:
+            instance.delete_flag = True
+            instance.save()
+            update_instance = instance.related_parent
+            update_instance.title = instance.title
+            update_instance.text = instance.text
+            update_instance.save()
+        instance.active_flag = True
+        instance.save()
+        serializer = PostSerializer(instacne)
+        return Response(serializer.data)
+
+    @detail_route(methods=['post'])
+    def deny(self, request, pk=None):
+        instance = self.get_object()
+        instance.delete_flag = True
+        instance.save()
+        serializer = PostSerializer(instance)
+        return Response(serializer.data)
