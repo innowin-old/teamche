@@ -88,13 +88,13 @@ class StoreViewSet(BaseViewSet):
 
     @list_route(methods=['get'])
     def owner_confirmation(self, request):
-        instances = Store.objects.exclude(store_related_owner=None, active_flag=False, delete_flag=False)
+        instances = Store.objects.exclude(store_related_owner=None).filter(active_flag=False, delete_flag=False)
         serializer = StoreDetailSerializer(instances, many=True)
         return Response(serializer.data)
 
     @list_route(methods=['get'])
     def offer_confirmation(self, request):
-        instances = Store.objects.filter(store_related_owner=None, active_flag=False, delete_flag=False)
+        instances = Store.objects.filter(store_related_owner=None).filter(active_flag=False, delete_flag=False)
         serializer = StoreDetailSerializer(instances, many=True)
         return Response(serializer.data)
 
