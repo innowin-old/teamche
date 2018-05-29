@@ -108,6 +108,18 @@ class ProductViewSet(BaseViewSet):
         if ProductBrand.objects.filter(title=data.get('brand', ''), product_brand_related_store_id=data.get('product_related_store', ''), product_brand_related_user=self.request.user).count() == 0:
             instance = ProductBrand.objects.create(title=data.get('brand', ''), product_brand_related_store_id=data.get('product_related_store', ''), product_brand_related_user=self.request.user)
 
+    @list_route(methods=['get'])
+    def create_confirmation(self, request):
+        instances = Product.objects.filter(related_parent=None, active_flag=False, delete_flag=False)
+        serializer = ProductSerializer(instances, many=True)
+        return serializer.data
+
+    @list_route(methods=['get'])
+    def update_confirmation(self, request):
+        instances = Product.objects.exclude(related_parent=None).filter(active_flag=Flase, delete_flag=False)
+        serializer = ProductSerializer(instances, many=True)
+        return serializer.data
+
     @detail_route(methods=['post'])
     def accept_update(self, request, pk=None):
         update_instance = self.get_object()
@@ -127,9 +139,10 @@ class ProductViewSet(BaseViewSet):
     @detail_route(methods=['post'])
     def deny_update(self, request, pk=None):
         update_instance = self.get_object()
-        update_instance.delete_flag = True
-        update_instance.save()
-        return Response({'status': 'Update request denied'})
+        if update_instance.related_parent != None:
+            update_instance.delete_flag = True
+            update_instance.save()
+            return Response({'status': 'Update request denied'})
 
 
 class ProductPriceViewSet(BaseViewSet):
