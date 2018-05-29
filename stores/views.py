@@ -123,9 +123,10 @@ class StoreViewSet(BaseViewSet):
     @detail_route(methods=['post'])
     def deny_update(self, request, pk=None):
         update_instance = self.get_object()
-        update_instance.delete_falg = True
-        update_instance.save()
-        return Response({'status': 'Update Request Denied'})
+        if update_instance.related_parent != None:
+            update_instance.delete_falg = True
+            update_instance.save()
+            return Response({'status': 'Update Request Denied'})
 
 
 class StoreVisitViewSet(BaseViewSet):
