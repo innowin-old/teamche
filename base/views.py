@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.utils.crypto import get_random_string
 
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
@@ -271,6 +272,11 @@ def code_verify(request):
             sms.delete_flag = True
             if User.objects.filter(username=sms.phone_number, delete_flag=False, active_flag=True).count() > 0:
                 user = User.objects.filter(username=sms.phone_number, delete_flag=False, active_flag=True)[0]
+            elif User.objects.filter(username=sms.phone_number, delete_flag=True).count() > 0:
+                old_user = User.objects.filter(username=sms.phone_number, delete_flag=True)[0]
+                old_user.username = sms.phone_number + get_random_string(length=32)
+                old_user.save()
+                user = User.objects.create(username=sms.phone_number, password='!', delete_flag=False, active_flag=True)
             else:
                 user = User.objects.create(username=sms.phone_number, password='!', delete_flag=False, active_flag=True)
             payload = jwt_payload_handler(user)
@@ -279,7 +285,7 @@ def code_verify(request):
             return JsonResponse({'status': 'SUCCESS', 'token': str(encoded_token)})
         return JsonResponse({'status': 'FAILED'})
     except Exception as e:
-        return JsonResponse({'status': e})
+        return JsonResponse({'status': str(e)})
 
 @csrf_exempt
 def code_decode(request):
