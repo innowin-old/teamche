@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+
+from rest_framework.decorators import list_route, detail_route
+from rest_framework.response import Response
+
 from .models import (
     Sms,
     Comment,
@@ -98,6 +102,18 @@ class CommentViewSet(BaseViewSet):
 
     def perform_create(self, serializer):
         serializer.save(comment_related_user=self.request.user)
+
+    @list_route(methods=['get'])
+    def create_confirmation(self, request):
+        instances = Comment.objects.filter(related_parent=None, active_flag=False, delete_flag=False)
+        serializer = CommentListSerializer(instances, many=True)
+        return Response(serializer.data)
+
+    @list_route(methods=['get'])
+    def update_confirmation(self, request):
+        instances = Comment.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
+        serializer = CommentListSerializer(instances, many=True)
+        return Response(serializer.data)
 
 
 class RateViewSet(BaseViewSet):
