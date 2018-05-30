@@ -115,6 +115,29 @@ class CommentViewSet(BaseViewSet):
         serializer = CommentListSerializer(instances, many=True)
         return Response(serializer.data)
 
+    @detail_route(methods=['post'])
+    def accept(self, request, pk=None):
+        instance = self.get_object()
+        if instance.related_parent != None:
+            instance.delete_flag = True
+            instance.save()
+            update_instance = instance.related_parent
+            update_instance.text = instance.text
+            update_instance.active_flag = True
+            update_instance.save()
+            serializer = CommentSerializer(update_instance)
+            return Response(serializer.data)
+        instance.active_flag = True
+        instance.save()
+        serializer = CommentSerializer(instance)
+        return Response(serializer.data)
+
+    @detail_route(methods=['post'])
+    def deny(self, request, pk=None):
+        instance = self.get_object()
+        instance.delete_flag = True
+        instance.save()
+
 
 class RateViewSet(BaseViewSet):
     filter_fields = ['title', 'value', 'rate_related_parent']
