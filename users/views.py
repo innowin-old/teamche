@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -6,6 +7,8 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
 from base.views import BaseViewSet
+
+import json
 
 from .models import (
     User,
@@ -66,7 +69,7 @@ class UserViewSet(ModelViewSet):
             instance.delete_flag = True
             instance.is_active = False
             instance.save()
-            Store.objects.filter(owner=instance).update(delete_flag=True)
+            Store.objects.filter(store_related_owner=instance).update(delete_flag=True)
             # return Response({status: "SUCCESS"}, status=status.HTTP_200_OK)
             response = HttpResponse(json.dumps({'message': 'record deleted.'}), content_type='application/json')
             response.status_code = 200
