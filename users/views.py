@@ -64,6 +64,7 @@ class UserViewSet(ModelViewSet):
             instance.delete_flag = True
             instance.is_active = False
             instance.save()
+            Stores.objects.filter(owner=instance).update(delete_flag=True)
             # return Response({status: "SUCCESS"}, status=status.HTTP_200_OK)
             response = HttpResponse(json.dumps({'message': 'record deleted.'}), content_type='application/json')
             response.status_code = 200
