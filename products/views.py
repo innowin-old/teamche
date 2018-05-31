@@ -174,3 +174,42 @@ class ProductOfferViewSet(BaseViewSet):
         if self.action == 'list' or self.action == 'retrieve':
             return ProductOfferListSerializer
         return ProductOfferSerializer
+
+    @list_route(methods=['get'])
+    def create_confirmation(self, request):
+        instances = ProductOffer.objects.filter(related_parent=None, active_flag=False, delete_flag=False)
+        serializer = ProductOfferSerializer(instances, many=True)
+        return Response(serializer.data)
+
+    @list_route(methods=['get'])
+    def update_confirmation(self, request):
+        instances = ProductOffer.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
+        serializer = ProductOfferSerializer(instances, many=True)
+        return Response(serializer.data)
+
+    @detail_route(methods=['post'])
+    def accept(self, request, pk=None):
+        instance = self.get_object()
+        if instance.related_parent != None:
+            instance.delete_flag = True
+            instance.save()
+            update_instance = instance.related_parent
+            update_instance.reason = instance.reason
+            update_instance.start_date = instance.start_date
+            update_instance.end_date = instance.end_date
+            update_instance.active_flag = True
+            update_instance.save()
+            serializer = ProductOfferSerializer(update_instance)
+            return Response(serializer.data)
+        instance.active_flag = True
+        instance.save()
+        serializer = ProductOfferSerializer(instance)
+        return Response(serializer.data)
+
+    @detail_route(methods=['post'])
+    def deny(self, request, pk=None):
+        instance = self.get_object()
+        instance.delete_flag = True
+        instance.save()
+        serializer = ProductOfferSerializer(instance)
+        return Response(serializer.data)

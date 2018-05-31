@@ -24,7 +24,7 @@ from .serializers import (
   )
 
 
-class UserViewSet(BaseViewSet):
+class UserViewSet(ModelViewSet):
     filter_fields = ['id', 'username', 'first_name', 'last_name', 'email', 'gender', 'type']
     search_fields = ['username', 'first_name', 'last_name', 'email']
 
@@ -45,6 +45,41 @@ class UserViewSet(BaseViewSet):
             return Response(serializer.data)
         except Exception as e:
             return Response(e)
+
+    def destroy(self, request, *args, **kwargs):
+        """class DynamicDeleteSerializer(ModelSerializer, BaseSerializer):
+            class Meta:
+                model = self.get_serializer_class().Meta.model
+                fields = []
+
+            def validate(self, attrs):
+                if self.instance.delete_flag:
+                    raise ValidationError('Ths selected object does not exist or already deleted.')
+                return attrs"""
+
+        try:
+            instance = self.get_object()
+            # serializer = DynamicDeleteSerializer(instance, request.data)
+            # serializer.is_valid(raise_exception=True)
+            instance.delete_flag = True
+            instance.is_active = False
+            instance.save()
+            # return Response({status: "SUCCESS"}, status=status.HTTP_200_OK)
+            response = HttpResponse(json.dumps({'message': 'record deleted.'}), content_type='application/json')
+            response.status_code = 200
+            return response
+        except Exception as e:
+            if type(e) is ValidationError:
+                raise e
+
+        return Response({
+            "errors": [{
+                "status": 1,
+                "key": "non_field_errors",
+                "detail": "The selected object does not exist or already deleted."
+            }]
+        })
+
 
 
 class UpgradeRequestViewSet(BaseViewSet):
