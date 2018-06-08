@@ -23,7 +23,8 @@ class UserSerializer(BaseSerializer):
           'last_name',
           'email',
           'gender',
-          'type'
+          'type',
+          'active'
         ]
         extra_kwargs = {
           'type': { 'read_only': True }

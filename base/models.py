@@ -30,6 +30,7 @@ class Base(models.Model):
     visibility_flag = models.BooleanField(db_index=True, default=True, help_text="Boolean")
     related_parent = models.ForeignKey('self', db_index=True, related_name='related_parent_name', on_delete=models.CASCADE, blank=True, null=True)
     rate_average = models.DecimalField(db_index=True, max_digits=5, decimal_places=2, default=Decimal('0.00'))
+    updated_by_user = models.BooleanField(db_index=True, default=True, help_text="Boolean")
 
     objects = BaseManager()
 
