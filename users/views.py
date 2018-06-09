@@ -89,7 +89,7 @@ class UserViewSet(ModelViewSet):
 
 
 class UpgradeRequestViewSet(BaseViewSet):
-    filter_fields = ['upgrade_request_related_user', 'first_name', 'last_name', 'gender']
+    filter_fields = ['upgrade_request_related_user', 'first_name', 'last_name', 'gender', 'is_new']
 
     def get_queryset(self):
         queryset = UpgradeRequest.objects.filter(delete_flag=False, active_flag=False)

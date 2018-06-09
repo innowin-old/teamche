@@ -90,7 +90,7 @@ class SmsViewSet(BaseViewSet):
 
 class CommentViewSet(BaseViewSet):
     permission_classes = [AllowAny]
-    filter_fields = ['text', 'comment_related_parent']
+    filter_fields = ['text', 'comment_related_parent', 'is_new', 'active_flag']
 
     def get_queryset(self):
         if self.request and self.request.user and self.request.user.is_superuser:
