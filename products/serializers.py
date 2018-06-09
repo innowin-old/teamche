@@ -86,6 +86,7 @@ class ProductSerializer(BaseSerializer):
             else:
                 model = Product()
             model.title = validated_data.get('title', instance.title)
+            model.description = validated_data.get('description', instance.description)
             model.product_related_store = validated_data.get('product_related_store', instance.product_related_store)
             model.brand = validated_data.get('brand', instance.brand)
             model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
@@ -135,6 +136,7 @@ class ProductAdminSerializer(BaseSerializer):
             else:
                 model = Product()
             model.title = validated_data.get('title', instance.title)
+            model.description = validated_data.get('description', instance.description)
             model.product_related_store = validated_data.get('product_related_store', instance.product_related_store)
             model.brand = validated_data.get('brand', instance.brand)
             model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
