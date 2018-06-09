@@ -81,8 +81,8 @@ class ProductSerializer(BaseSerializer):
             instance.save()
             return instance
         else:
-            if Product.objects.filter(related_parent_id=instance.id, active_flag=True).count() > 0:
-                model = Product.objects.filter(related_parent_id=instance.id, active_flag=True)[0]
+            if Product.objects.filter(related_parent_id=instance.id, delete_flag=False).count() > 0:
+                model = Product.objects.filter(related_parent_id=instance.id, delete_flag=False)[0]
             else:
                 model = Product()
             model.title = validated_data.get('title', instance.title)
@@ -91,7 +91,7 @@ class ProductSerializer(BaseSerializer):
             model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
             model.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
             model.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
-            model.realted_parent_id = instance.id
+            model.related_parent_id = instance.id
             model.save()
             return model
 
@@ -130,8 +130,8 @@ class ProductAdminSerializer(BaseSerializer):
             instance.save()
             return instance
         else:
-            if Product.objects.filter(related_parent_id=instance.id, active_flag=True).count() > 0:
-                model = Product.objects.filter(related_parent_id=instance.id, active_flag=True)[0]
+            if Product.objects.filter(related_parent_id=instance.id, delete_flag=False).count() > 0:
+                model = Product.objects.filter(related_parent_id=instance.id, delete_flag=False)[0]
             else:
                 model = Product()
             model.title = validated_data.get('title', instance.title)
@@ -140,7 +140,7 @@ class ProductAdminSerializer(BaseSerializer):
             model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
             model.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
             model.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
-            model.realted_parent_id = instance.id
+            model.related_parent_id = instance.id
             model.save()
             return model
 
