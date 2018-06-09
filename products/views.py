@@ -124,8 +124,12 @@ class ProductViewSet(BaseViewSet):
     def accept_update(self, request, pk=None):
         update_instance = self.get_object()
         if update_instance.delete_falg == False:
-            instance = update_instance.related_parent
-            instance = update_instance
+            instance = Product.objects.filter(id=update_instance.related_parent_id)[0]
+            instance.title = update_instance.title
+            instance.description = update_instance.description
+            instance.product_related_store = update_instance.product_related_store
+            instance.brand = update_instance.brand
+            instance.product_related_category = update_instance.product_related_category
             instance.related_parent = None
             instance.active_flag = True
             instance.save()
