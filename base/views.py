@@ -241,7 +241,7 @@ class FileViewSet(BaseViewSet):
         data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext) # You can save this as file instance.
 
         file_instance = File(
-          file_related_parent=request.POST.get("file_related_parent", None),
+          file_related_parent_id=request.POST.get("file_related_parent", None),
           file_related_user=request.user,
           file_path=data
         )

@@ -102,7 +102,7 @@ class File(Base):
 
     @property
     def file_link(self):
-        return settings.MEDIA_URL + '/' + os.path.basename(self.file_path.name)
+        return settings.MEDIA_URL + os.path.basename(self.file_path.name)
 
 post_save.connect(update_cache, sender=File)
 
