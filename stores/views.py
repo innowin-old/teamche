@@ -111,8 +111,16 @@ class StoreViewSet(BaseViewSet):
     def accept_update(self, request, pk=None):
         update_instance = self.get_object()
         if update_instance.delete_flag == False:
-            instance = update_instance.related_parent
-            instance = update_instance
+            instance = Store.objects.filter(id=update_instance.related_parent_id)[0]
+            instance.title = update_instance.title
+            instance.description = update_instance.description
+            instance.store_related_category = update_instance.store_related_category
+            instance.store_related_owner = update_instance.store_related_owner
+            instance.phone_number = update_instance.phone_number
+            instance.latitude = update_instance.latitude
+            instance.longitude = update_instance.longitude
+            instance.address = update_instance.address
+            instance.related_logo = update_instance.related_logo
             instance.related_parent = None
             instance.active_flag = True
             instance.save()
