@@ -175,9 +175,12 @@ class ProductOfferViewSet(BaseViewSet):
             return ProductOfferListSerializer
         return ProductOfferSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(is_new=True)
+
     @list_route(methods=['get'])
     def create_confirmation(self, request):
-        instances = ProductOffer.objects.filter(related_parent=None, active_flag=False, delete_flag=False)
+        instances = ProductOffer.objects.filter(related_parent=None, active_flag=False, delete_flag=False, is_new=True)
         serializer = ProductOfferSerializer(instances, many=True)
         return Response(serializer.data)
 
@@ -192,16 +195,19 @@ class ProductOfferViewSet(BaseViewSet):
         instance = self.get_object()
         if instance.related_parent != None:
             instance.delete_flag = True
+            instance.is_new = False
             instance.save()
             update_instance = instance.related_parent
             update_instance.reason = instance.reason
             update_instance.start_date = instance.start_date
             update_instance.end_date = instance.end_date
             update_instance.active_flag = True
+            update_instance.is_new = False
             update_instance.save()
             serializer = ProductOfferSerializer(update_instance)
             return Response(serializer.data)
         instance.active_flag = True
+        instance.is_new = False
         instance.save()
         serializer = ProductOfferSerializer(instance)
         return Response(serializer.data)
@@ -210,6 +216,7 @@ class ProductOfferViewSet(BaseViewSet):
     def deny(self, request, pk=None):
         instance = self.get_object()
         instance.delete_flag = True
+        instance.is_new = False
         instance.save()
         serializer = ProductOfferSerializer(instance)
         return Response(serializer.data)
