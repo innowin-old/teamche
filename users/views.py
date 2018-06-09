@@ -101,7 +101,7 @@ class UpgradeRequestViewSet(BaseViewSet):
         return UpgradeRequestSerializer
 
     def perform_create(self, serializer):
-        serializer.save(upgrade_request_related_user=self.request.user)
+        serializer.save(upgrade_request_related_user=self.request.user, is_new=True)
 
 
 class FCMTokenViewSet(BaseViewSet):

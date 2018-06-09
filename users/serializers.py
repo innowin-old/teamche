@@ -40,6 +40,7 @@ class UpgradeRequestAdminSerializer(BaseSerializer):
     def update(self, instance, validated_data):
         instance.active_flag = validated_data.get('active_flag', instance.active_flag)
         instance.delete_flag = validated_data.get('delete_flag', instance.delete_flag)
+        instance.is_new = False
         if validated_data.get('active_flag', None) != None:
             user = User.objects.filter(id=instance.upgrade_request_related_user_id)[0]
             user.type = instance.type
