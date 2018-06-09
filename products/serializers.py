@@ -116,6 +116,9 @@ class ProductAdminSerializer(BaseSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+        extra_kwargs = {
+          'product_related_user': { 'read_only': True }
+        }
 
 
 class ProductPriceSerializer(BaseSerializer):
