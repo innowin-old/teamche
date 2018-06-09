@@ -123,7 +123,7 @@ class ProductViewSet(BaseViewSet):
     @detail_route(methods=['post'])
     def accept_update(self, request, pk=None):
         update_instance = self.get_object()
-        if update_instance.delete_falg == False:
+        if update_instance.delete_flag == False:
             instance = Product.objects.filter(id=update_instance.related_parent_id)[0]
             instance.title = update_instance.title
             instance.description = update_instance.description
@@ -133,10 +133,10 @@ class ProductViewSet(BaseViewSet):
             instance.related_parent = None
             instance.active_flag = True
             instance.save()
-            update_instance.delete_falg = True
+            update_instance.delete_flag = True
             update_instance.save()
             serializer = ProductSerializer(instance)
-            return serializer.data
+            return Response(serializer.data)
         else:
             return Response({'status': 'Update request not found'})
 
