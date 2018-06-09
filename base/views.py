@@ -281,7 +281,8 @@ def login(request):
               code='1234'
             )
         return JsonResponse({'status': 'SUCCESS'})
-    except :
+    except Exception as e :
+        print(e)
         return JsonResponse({'status': 'FAILED'})
 
 
