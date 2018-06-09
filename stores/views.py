@@ -84,17 +84,20 @@ class StoreViewSet(BaseViewSet):
         return StoreSerializer
 
     def perform_create(self, serializer):
-        serializer.save(store_related_user=self.request.user)
+        if self.request and self.request.user and self.request.user.is_superuser:
+            serializer.save(store_related_user=self.request.user)
+        else:
+            serializer.save(store_related_user=self.request.user, is_new=True)
 
     @list_route(methods=['get'])
     def owner_confirmation(self, request):
-        instances = Store.objects.exclude(store_related_owner=None).filter(active_flag=False, delete_flag=False)
+        instances = Store.objects.exclude(store_related_owner=None).filter(active_flag=False, delete_flag=False, is_new=True)
         serializer = StoreDetailSerializer(instances, many=True)
         return Response(serializer.data)
 
     @list_route(methods=['get'])
     def offer_confirmation(self, request):
-        instances = Store.objects.filter(store_related_owner=None).filter(active_flag=False, delete_flag=False)
+        instances = Store.objects.filter(store_related_owner=None).filter(active_flag=False, delete_flag=False, is_new=True)
         serializer = StoreDetailSerializer(instances, many=True)
         return Response(serializer.data)
 

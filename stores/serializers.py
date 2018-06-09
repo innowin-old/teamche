@@ -51,6 +51,7 @@ class StoreSerializer(BaseSerializer):
             return instance
         elif validated_data.get('active_flag', None) != None:
             instance.active_flag = validated_data.get('active_flag', None)
+            instance.is_new = False
             instance.save()
             return instance
         else:
