@@ -1,3 +1,6 @@
+import base64
+
+from django.core.files.base import ContentFile
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.utils.crypto import get_random_string
@@ -227,6 +230,24 @@ class FileViewSet(BaseViewSet):
 
     def perform_create(self, serializer):
         serializer.save(file_related_user=self.request.user)
+
+    @list_route(methods=['post'])
+    def upload_base64(self, request):
+        # data = ContentFile(base64.b64decode(request.POST.get("file_path", "")), name='temp.' + ext) # You can save this as file instance.
+
+        format, imgstr = request.POST.get("file_path", "").split(';base64,')
+        ext = format.split('/')[-1]
+
+        data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext) # You can save this as file instance.
+
+        file_instance = File(
+          file_related_parent=request.POST.get("file_related_parent", None),
+          file_related_user=request.user,
+          file_path=data
+        )
+        file_instance.save()
+
+        return Response({'status': 'SUCCESS'})
 
 
 class SliderViewSet(BaseViewSet):
