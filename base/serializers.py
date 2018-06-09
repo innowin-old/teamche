@@ -56,6 +56,12 @@ class CommentSerializer(BaseSerializer):
           'comment_related_user': { 'read_only': True }
         }
 
+    def update(self, instance, validated_data):
+        if validated_data.get('active_flag', None) != None:
+            instance.is_new = False
+            instance.save()
+            return instance
+
 
 class RateSerializer(BaseSerializer):
     class Meta:

@@ -109,7 +109,7 @@ class CommentViewSet(BaseViewSet):
 
     @list_route(methods=['get'])
     def create_confirmation(self, request):
-        instances = Comment.objects.filter(related_parent=None, active_flag=False, delete_flag=False)
+        instances = Comment.objects.filter(related_parent=None, active_flag=False, delete_flag=False, is_new=True)
         serializer = CommentListSerializer(instances, many=True)
         return Response(serializer.data)
 

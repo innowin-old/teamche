@@ -110,7 +110,7 @@ class ProductViewSet(BaseViewSet):
 
     @list_route(methods=['get'])
     def create_confirmation(self, request):
-        instances = Product.objects.filter(related_parent=None, active_flag=False, delete_flag=False)
+        instances = Product.objects.filter(related_parent=None, active_flag=False, delete_flag=False, is_new=True)
         serializer = ProductListSerializer(instances, many=True)
         return Response(serializer.data)
 
