@@ -91,7 +91,7 @@ class ProductSerializer(BaseSerializer):
             model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
             model.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
             model.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
-            model.realted_parent = instance.id
+            model.realted_parent_id = instance.id
             model.save()
             return model
 
@@ -140,7 +140,7 @@ class ProductAdminSerializer(BaseSerializer):
             model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
             model.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
             model.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
-            model.realted_parent = instance.id
+            model.realted_parent_id = instance.id
             model.save()
             return model
 
