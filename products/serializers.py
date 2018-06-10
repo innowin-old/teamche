@@ -133,7 +133,6 @@ class ProductAdminSerializer(BaseSerializer):
         instance.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
         instance.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
         instance.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
-        instance.related_parent_id = instance.id
         instance.save()
         return instance
 

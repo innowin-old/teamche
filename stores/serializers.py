@@ -60,7 +60,6 @@ class StoreAdminSerializer(BaseSerializer):
         instance.longitude = validated_data.get('longitude', instance.longitude)
         instance.address = validated_data.get('address', instance.address)
         instance.related_logo = validated_data.get('related_logo', instance.related_logo)
-        instance.related_parent_id = instance.id
         instance.save()
         return instance
 
