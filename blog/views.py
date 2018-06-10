@@ -30,7 +30,7 @@ class PostViewSet(BaseViewSet):
         return PostSerializer
 
     def perform_create(self, serializer):
-        serializer.save(post_related_user=self.request.user)
+        serializer.save(post_related_user=self.request.user, active_flag=True)
 
     @list_route(methods=['get'])
     def create_confirmation(self, request):
