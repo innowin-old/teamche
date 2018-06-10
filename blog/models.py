@@ -10,6 +10,6 @@ class Post(Base):
     @property
     def image(self):
         if File.objects.filter(file_related_parent=self).count() > 0:
-            instance = File.objects.filter(file_related_parent=self).order_by('-pk')[0]
+            instance = list(File.objects.filter(file_related_parent=self).order_by('-pk'))[0]
             return instance.file_link
         return None
