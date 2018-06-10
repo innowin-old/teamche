@@ -113,9 +113,9 @@ class Slider(Base):
 
     @property
     def image(self):
-        file_instance = list(File.objects.filter(file_related_parent=self).order_by('-pk'))
+        file_instance = File.objects.filter(file_related_parent=self)
         if file_instance.count() > 0:
-            return file_instance[0].file_link
+            return file_instance[file_instance.count() - 1].file_link
         else:
             return None
 
