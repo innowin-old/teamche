@@ -79,6 +79,10 @@ class StoreViewSet(BaseViewSet):
         return queryset
 
     def get_serializer_class(self):
+        if self.request and self.request.user and self.request.user.is_superuser:
+            if self.action == 'list' or self.action == 'retrieve':
+                return StoreDetailSerializer
+            return StoreAdminSerializer
         if self.action == 'list' or self.action == 'retrieve':
             return StoreDetailSerializer
         return StoreSerializer
