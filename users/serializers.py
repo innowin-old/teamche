@@ -44,6 +44,9 @@ class UpgradeRequestAdminSerializer(BaseSerializer):
         if validated_data.get('active_flag', None) != None:
             user = User.objects.filter(id=instance.upgrade_request_related_user_id)[0]
             user.type = instance.type
+            user.first_name = instance.first_name
+            user.last_name = instance.last_name
+            user.gender = instance.gender
             user.save()
         instance.save()
         return instance
