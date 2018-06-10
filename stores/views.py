@@ -17,6 +17,7 @@ from .models import (
 from .serializers import (
     StoreCategorySerializer,
     StoreSerializer,
+    StoreAdminSerializer,
     StoreDetailSerializer,
     StoreVisitSerializer,
     StoreVisitDetailSerializer
