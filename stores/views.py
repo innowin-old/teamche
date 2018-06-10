@@ -36,7 +36,7 @@ class StoreCategoryViewSet(BaseViewSet):
 
 
 class StoreViewSet(BaseViewSet):
-    filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner', 'rate_average']
+    filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner', 'rate_average', 'active_flag']
     ordering_fields = ['id', 'title', 'created_time', 'rate_average']
     search_fields = ['title', 'description']
 
@@ -90,9 +90,9 @@ class StoreViewSet(BaseViewSet):
 
     def perform_create(self, serializer):
         if self.request and self.request.user and self.request.user.is_superuser:
-            serializer.save(store_related_user=self.request.user)
+            serializer.save(store_related_user=self.request.user, visibility_flag=True)
         else:
-            serializer.save(store_related_user=self.request.user, is_new=True)
+            serializer.save(store_related_user=self.request.user, is_new=True, visibility_flag=True)
 
     @list_route(methods=['get'])
     def owner_confirmation(self, request):
