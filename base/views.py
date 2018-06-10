@@ -2,7 +2,7 @@ import base64
 
 from django.core.files.base import ContentFile
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils.crypto import get_random_string
 
 from rest_framework.decorators import list_route, detail_route
