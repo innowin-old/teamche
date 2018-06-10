@@ -111,8 +111,9 @@ class Slider(Base):
     title = models.CharField(db_index=True, max_length=50, blank=True, null=True)
     link = models.CharField(db_index=True, max_length=200, blank=True, null=True)
 
+    @property
     def image(self):
-        file_instance = File.objects.filter(file_related_parent=self)
+        file_instance = File.objects.filter(file_related_parent=self).order_by('-pk')
         if file_instance.count() > 0:
             return file_instance[0].file_link
         else:
