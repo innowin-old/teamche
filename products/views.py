@@ -169,7 +169,10 @@ class ProductPriceViewSet(BaseViewSet):
         return ProductPriceSerializer
 
     def perform_create(self, serializer):
-        serializer.save(product_price_related_user=self.request.user)
+        if self.request and self.request.user and self.request.user.is_superuser:
+            serializer.save(product_price_related_user=self.request.user, active_flag=True)
+        else:
+            serializer.save(product_price_related_user=self.request.user, active_flag=False, is_new=True)
 
 
 class ProductOfferViewSet(BaseViewSet):

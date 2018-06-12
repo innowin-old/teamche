@@ -54,17 +54,23 @@ class Product(Base):
 
     @property
     def discount(self):
-        discount_instance = Discount.objects.filter(discount_related_parent=self).order_by('-pk')
+        if self.related_parent == None:
+            discount_instance = Discount.objects.filter(discount_related_parent=self, active_flag=True, delete_flag=False, is_new=False)
+        else:
+            discount_instance = Discount.objects.filter(discount_related_parent=self.related_parent, is_new=True)
         if discount_instance.count() > 0:
-            serializer = DiscountSerializer(discount_instance[0])
+            serializer = DiscountSerializer(discount_instance[discount_instance.count() - 1])
             return serializer.data
         return None
 
     @property
     def price(self):
-        price_instance = ProductPrice.objects.filter(product_price_related_product=self, delete_flag=False).order_by('-pk')
+        if self.related_parent == None:
+            price_instance = ProductPrice.objects.filter(product_price_related_product=self, delete_flag=False, active_flag=True, is_new=False)
+        else:
+            price_instance = ProductPrice.objects.filter(product_price_related_product=self.related_parent, delete_flag=False, is_new=True)
         if price_instance.count() > 0:
-            return price_instance[0].amount
+            return price_instance[price_instance.count() - 1].amount
         return None
 
 post_save.connect(update_cache, sender=Product)
