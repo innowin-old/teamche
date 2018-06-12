@@ -75,8 +75,10 @@ class ProductViewSet(BaseViewSet):
     def get_queryset(self):
         if self.request and self.request.user and self.request.user.is_superuser:
             queryset = Product.objects.filter(delete_flag=False)
+            queryset = queryset.filter(Q(product_related_store__delete_flag=False, product_related_store__active_flag=True, visibility_flag=True) | Q(product_related_store__visibility_flag=False, product_related_user=self.request.user))
         else:
             queryset = Product.objects.filter(Q(delete_flag=False) | Q(active_flag=True) | Q(active_flag=False, product_related_user=self.request.user))
+            queryset = queryset.filter(Q(product_related_store__delete_flag=False, product_related_store__active_flag=True, visibility_flag=True) | Q(product_related_store__visibility_flag=False, product_related_user=self.request.user))
 
         related_parent = self.request.query_params.get('related_parent', None)
         if related_parent is not None:
