@@ -61,7 +61,7 @@ class Product(Base):
         if discount_instance.count() > 0:
             serializer = DiscountSerializer(discount_instance[discount_instance.count() - 1])
             return serializer.data
-        return None
+        return 0
 
     @property
     def price(self):
@@ -71,7 +71,7 @@ class Product(Base):
             price_instance = ProductPrice.objects.filter(product_price_related_product=self.related_parent, delete_flag=False, is_new=True)
         if price_instance.count() > 0:
             return price_instance[price_instance.count() - 1].amount
-        return None
+        return 0
 
 post_save.connect(update_cache, sender=Product)
 
