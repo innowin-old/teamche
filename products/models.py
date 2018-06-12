@@ -17,7 +17,7 @@ class ProductCategory(Base):
     product_category_related_store = models.ForeignKey(Store, db_index=True, on_delete=models.CASCADE, related_name='product_category_related_store_name')
 
     def __str__(self):
-        return self.title + " - " + self.product_category_related_store.title
+        return str(self.id) + '. ' + self.title + " - " + self.product_category_related_store.title
 
 post_save.connect(update_cache, sender=ProductCategory)
 
@@ -44,7 +44,7 @@ class Product(Base):
     made_in_iran = models.BooleanField(db_index=True)
 
     def __str__(self):
-        return self.title + " - " + self.product_related_store.title
+        return str(self.id) + '. ' + self.title + " - " + self.product_related_store.title
 
     @property
     def images(self):

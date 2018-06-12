@@ -73,7 +73,10 @@ class ProductViewSet(BaseViewSet):
     search_fields = ['title', 'description']
 
     def get_queryset(self):
-        queryset = Product.objects.filter(Q(delete_flag=False) | Q(active_flag=True) | Q(active_flag=False, product_related_user=self.request.user))
+        if self.request and self.request.user and self.request.user.is_superuser:
+            queryset = Product.objects.filter(delete_flag=False)
+        else:
+            queryset = Product.objects.filter(Q(delete_flag=False) | Q(active_flag=True) | Q(active_flag=False, product_related_user=self.request.user))
 
         related_parent = self.request.query_params.get('related_parent', None)
         if related_parent is not None:

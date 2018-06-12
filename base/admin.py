@@ -6,7 +6,8 @@ from .models import (
     Favorite,
     Discount,
     Report,
-    File
+    File,
+    Base
 )
 
 admin.site.register(Sms)
@@ -16,3 +17,4 @@ admin.site.register(Favorite)
 admin.site.register(Discount)
 admin.site.register(Report)
 admin.site.register(File)
+admin.site.register(Base)

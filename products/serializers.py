@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from base.serializers import BaseSerializer, ReadOnlyField
+from base.serializers import BaseSerializer, ReadOnlyField, SerializerMethodField
 
 from .models import (
   ProductCategory,
@@ -103,10 +103,18 @@ class ProductAdminListSerializer(BaseSerializer):
     price = ReadOnlyField()
     product_related_category = ProductCategorySerializer()
     product_related_store = StoreSerializer()
+    related_parent = SerializerMethodField()
 
     class Meta:
         model = Product
         fields = '__all__'
+
+    def get_related_parent(self, obj):
+        if Product.objects.filter(id=obj.related_parent_id).count() > 0:
+            instance = Product.objects.filter(id=obj.related_parent_id)[0]
+            serializer = ProductListSerializer(instance)
+            return serializer.data
+        return None
 
 
 class ProductAdminSerializer(BaseSerializer):
