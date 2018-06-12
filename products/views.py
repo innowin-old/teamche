@@ -185,6 +185,7 @@ class ProductOfferViewSet(BaseViewSet):
 
     def get_queryset(self):
         queryset = ProductOffer.objects.filter(delete_flag=False)
+        queryset = queryset.filter(product_offer_related_product__active_flag=True, product_offer_related_product__delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
