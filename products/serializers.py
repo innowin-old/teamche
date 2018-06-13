@@ -9,7 +9,7 @@ from .models import (
   ProductOffer
 )
 
-from stores.models import Store
+from stores.models import Store, StoreCategory
 
 class ProductCategorySerializer(BaseSerializer):
     class Meta:
@@ -41,10 +41,19 @@ class ProductBrandAdminSerializer(BaseSerializer):
         fields = '__all__'
 
 
+class StoreCategorySerializer(BaseSerializer):
+    image = ReadOnlyField()
+
+    class Meta:
+        model = StoreCategory
+        fields = '__all__'
+
+
 class StoreSerializer(BaseSerializer):
+    store_related_category = StoreCategorySerializer()
     class Meta:
         model = Store
-        fields = ['id', 'title', 'latitude', 'longitude']
+        fields = ['id', 'title', 'latitude', 'longitude', 'store_related_category']
 
 
 class ProductListSerializer(BaseSerializer):
