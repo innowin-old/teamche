@@ -36,7 +36,7 @@ class StoreCategoryViewSet(BaseViewSet):
 
 
 class StoreViewSet(BaseViewSet):
-    filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner', 'rate_average', 'active_flag']
+    filter_fields = ['id', 'title', 'description', 'phone_number', 'latitude', 'longitude', 'store_related_category', 'store_related_owner', 'rate_average', 'active_flag', 'visibility_flag']
     ordering_fields = ['id', 'title', 'created_time', 'rate_average']
     search_fields = ['title', 'description']
 

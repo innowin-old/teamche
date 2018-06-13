@@ -68,7 +68,7 @@ class ProductBrandViewSet(BaseViewSet):
 
 
 class ProductViewSet(BaseViewSet):
-    filter_fields = ['id', 'title', 'description', 'product_related_store', 'brand', 'product_related_category', 'product_related_user', 'made_in_iran', 'rate_average', 'active_flag']
+    filter_fields = ['id', 'title', 'description', 'product_related_store', 'brand', 'product_related_category', 'product_related_user', 'made_in_iran', 'rate_average', 'active_flag', 'visibility_flag']
     ordering_fields = '__all__'
     search_fields = ['title', 'description']
 
