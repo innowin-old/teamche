@@ -182,11 +182,15 @@ class ProductPriceViewSet(BaseViewSet):
 
 
 class ProductOfferViewSet(BaseViewSet):
-    filter_fields = ['start_date', 'end_date']
+    filter_fields = ['start_date', 'end_date', 'active_flag', 'visibility_flag']
     ordering_fields = '__all__'
 
     def get_queryset(self):
-        queryset = ProductOffer.objects.filter(delete_flag=False)
+        if self.request and self.request.user and self.request.user.is_superuser:
+            queryset = ProductOffer.objects.filter(delete_flag=False)
+        else:
+            queryset = ProductOffer.objects.filter(delete_flag=False)
+            queryset = queryset.filter(Q(active_flag=True) | Q(active_flag=False, product_offer_related_user=self.request.user))
         queryset = queryset.filter(product_offer_related_product__active_flag=True, product_offer_related_product__delete_flag=False)
         return queryset
 
