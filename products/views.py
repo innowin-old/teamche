@@ -196,7 +196,7 @@ class ProductOfferViewSet(BaseViewSet):
         return ProductOfferSerializer
 
     def perform_create(self, serializer):
-        serializer.save(is_new=True)
+        serializer.save(is_new=True, visibility_flag=True)
 
     @list_route(methods=['get'])
     def create_confirmation(self, request):
