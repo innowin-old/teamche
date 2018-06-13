@@ -110,9 +110,9 @@ class ProductViewSet(BaseViewSet):
         data = self.request.data
 
         if self.request and self.request.user and self.request.user.is_superuser:
-            serializer.save(product_related_user=self.request.user)
+            serializer.save(product_related_user=self.request.user, visibility_flag=True)
         else:
-            serializer.save(product_related_user=self.request.user, is_new=True)
+            serializer.save(product_related_user=self.request.user, is_new=True, visibility_flag=True)
         if ProductBrand.objects.filter(title=data.get('brand', ''), product_brand_related_store_id=data.get('product_related_store', ''), product_brand_related_user=self.request.user).count() == 0:
             instance = ProductBrand.objects.create(title=data.get('brand', ''), product_brand_related_store_id=data.get('product_related_store', ''), product_brand_related_user=self.request.user)
 
