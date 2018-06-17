@@ -255,6 +255,23 @@ class FileViewSet(BaseViewSet):
         serializer = FileSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @detail_route(methods=['post'])
+    def accept(self, request, pk=None):
+        instance = self.get_object()
+        instance.acitve_flag = True
+        instance.is_new = False
+        instance.save()
+        selrializer = FileSerializer(instance)
+        return Response(serializer.data)
+
+    @detail_route(methods=['post'])
+    def deny(self, request, pk=None):
+        instance = self.get_object()
+        instance.is_new = False
+        instance.save()
+        serializer = FileSerializer(instance)
+        return Response(serializer.data)
+
 
 class SliderViewSet(BaseViewSet):
     filter_fields = ['title', 'link']
