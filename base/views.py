@@ -249,6 +249,12 @@ class FileViewSet(BaseViewSet):
 
         return Response({'status': 'SUCCESS'})
 
+    @list_route(methods=['get'])
+    def create_confirmation(self, request):
+        queryset = File.objects.filter(is_new=True, active_flag=False, delete_flag=False)
+        serializer = FileSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class SliderViewSet(BaseViewSet):
     filter_fields = ['title', 'link']
