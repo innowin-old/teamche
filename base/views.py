@@ -261,7 +261,7 @@ class FileViewSet(BaseViewSet):
         instance.acitve_flag = True
         instance.is_new = False
         instance.save()
-        selrializer = FileSerializer(instance)
+        serializer = FileSerializer(instance)
         return Response(serializer.data)
 
     @detail_route(methods=['post'])
