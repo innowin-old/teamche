@@ -188,6 +188,8 @@ class ProductOfferViewSet(BaseViewSet):
     def get_queryset(self):
         queryset = ProductOffer.objects.filter(delete_flag=False)
         queryset = queryset.filter(product_offer_related_product__active_flag=True, product_offer_related_product__delete_flag=False)
+        queryset = queryset.filter(product_offer_related_product__product_related_store__active_flag=True)
+        queryset = queryset.filter(product_offer_related_product__product_related_store__delete_flag=False)
         return queryset
 
     def get_serializer_class(self):
@@ -202,6 +204,8 @@ class ProductOfferViewSet(BaseViewSet):
     def create_confirmation(self, request):
         instances = ProductOffer.objects.filter(related_parent=None, active_flag=False, delete_flag=False, is_new=True)
         instances = instances.filter(product_offer_related_product__delete_flag=False, product_offer_related_product__active_flag=True)
+        instances = instances.filter(product_offer_related_product__product_related_store__delete_flag=False)
+        instances = instances.filter(product_offer_related_product__product_related_store__active_flag=True)
         serializer = ProductOfferSerializer(instances, many=True)
         return Response(serializer.data)
 
@@ -209,6 +213,8 @@ class ProductOfferViewSet(BaseViewSet):
     def update_confirmation(self, request):
         instances = ProductOffer.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
         instances = instances.filter(product_offer_related_product__delete_flag=False, product_offer_related_product__active_flag=True)
+        instances = instances.filter(product_offer_related_product__product_related_store__active_flag=True)
+        instances = instances.filter(product_offer_related_parent__product_related_store__delete_flag=False)
         serializer = ProductOfferSerializer(instances, many=True)
         return Response(serializer.data)
 
