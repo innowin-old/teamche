@@ -201,12 +201,14 @@ class ProductOfferViewSet(BaseViewSet):
     @list_route(methods=['get'])
     def create_confirmation(self, request):
         instances = ProductOffer.objects.filter(related_parent=None, active_flag=False, delete_flag=False, is_new=True)
+        instances = instances.filter(product_offer_related_product__delete_flag=False, product_offer_related_product__active_flag=True)
         serializer = ProductOfferSerializer(instances, many=True)
         return Response(serializer.data)
 
     @list_route(methods=['get'])
     def update_confirmation(self, request):
         instances = ProductOffer.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
+        instances = instances.filter(product_offer_related_product__delete_flag=False, product_offer_related_product__active_flag=True)
         serializer = ProductOfferSerializer(instances, many=True)
         return Response(serializer.data)
 

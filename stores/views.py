@@ -109,40 +109,42 @@ class StoreViewSet(BaseViewSet):
     @list_route(methods=['get'])
     def update_confirmation(self, request):
         instances = Store.objects.exclude(related_parent=None).filter(delete_flag=False, active_flag=False)
+        instances = instances.filter(related_parent__delete_flag=False)
         serializer = StoreDetailSerializer(instances, many=True)
         return Response(serializer.data)
 
     @detail_route(methods=['post'])
-    def accept_update(self, request, pk=None):
-        update_instance = self.get_object()
-        if update_instance.delete_flag == False:
-            instance = Store.objects.filter(id=update_instance.related_parent_id)[0]
-            instance.title = update_instance.title
-            instance.description = update_instance.description
-            instance.store_related_category = update_instance.store_related_category
-            instance.store_related_owner = update_instance.store_related_owner
-            instance.phone_number = update_instance.phone_number
-            instance.latitude = update_instance.latitude
-            instance.longitude = update_instance.longitude
-            instance.address = update_instance.address
-            instance.related_logo = update_instance.related_logo
-            instance.related_parent = None
-            instance.active_flag = True
-            instance.save()
-            update_instance.delete_flag = True
+    def accept(self, request, pk=None):
+        instance = self.get_object()
+        if instance.related_parent != None and instance.delete_flag == False:
+            update_instance = Store.objects.filter(id=instance.related_parent_id)[0]
+            update_instance.title = update_instance.title
+            update_instance.description = update_instance.description
+            update_instance.store_related_category = update_instance.store_related_category
+            update_instance.store_related_owner = update_instance.store_related_owner
+            update_instance.phone_number = update_instance.phone_number
+            update_instance.latitude = update_instance.latitude
+            update_instance.longitude = update_instance.longitude
+            update_instance.address = update_instance.address
+            update_instance.related_logo = update_instance.related_logo
+            update_instance.related_parent = None
+            update_instance.active_flag = True
             update_instance.save()
-            serializer = StoreSerializer(instance)
+            instance.delete_flag = True
+            instance.save()
+            serializer = StoreSerializer(update_instance)
             return Response(serializer.data)
-        else:
-            return Response({'status': 'Update Request Denied Before'})
+        instance.active_flag = True
+        instance.save()
+        serializer = StoreSerializer(instance)
+        return Response(serializer.data)
 
     @detail_route(methods=['post'])
-    def deny_update(self, request, pk=None):
-        update_instance = self.get_object()
-        if update_instance.related_parent != None:
-            update_instance.delete_flag = True
-            update_instance.save()
-            return Response({'status': 'Update Request Denied'})
+    def deny(self, request, pk=None):
+        instance = self.get_object()
+        instance.delete_flag = True
+        instance.save()
+        return Response({'status': 'Store Denied.'})
 
 
 class StoreVisitViewSet(BaseViewSet):
