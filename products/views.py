@@ -214,7 +214,7 @@ class ProductOfferViewSet(BaseViewSet):
         instances = ProductOffer.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
         instances = instances.filter(product_offer_related_product__delete_flag=False, product_offer_related_product__active_flag=True)
         instances = instances.filter(product_offer_related_product__product_related_store__active_flag=True)
-        instances = instances.filter(product_offer_related_parent__product_related_store__delete_flag=False)
+        instances = instances.filter(product_offer_related_product__product_related_store__delete_flag=False)
         serializer = ProductOfferSerializer(instances, many=True)
         return Response(serializer.data)
 
