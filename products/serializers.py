@@ -90,7 +90,9 @@ class ProductSerializer(BaseSerializer):
             instance.save()
             return instance
         else:
-            if Product.objects.filter(related_parent_id=instance.id, delete_flag=False).count() > 0:
+            if instance.related_parent != None:
+                model = Product.objects.filter(id=instance.id)
+            elif Product.objects.filter(related_parent_id=instance.id, delete_flag=False).count() > 0:
                 model = Product.objects.filter(related_parent_id=instance.id, delete_flag=False)[0]
             else:
                 model = Product()
@@ -103,6 +105,16 @@ class ProductSerializer(BaseSerializer):
             model.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
             model.related_parent_id = instance.id
             model.save()
+            # Set new price
+            if model.price != instance.price:
+                price_instance = ProductPrice()
+                if instance.related_parent != None:
+                    price_instance.product_price_related_product = instance.related_parent
+                else:
+                    price_instance.product_price_related_product = instance
+                price_instance.amount = instance.price
+                price_instance.save()
+
             return model
 
 
