@@ -229,7 +229,10 @@ class FileViewSet(BaseViewSet):
         return FileSerializer
 
     def perform_create(self, serializer):
-        serializer.save(file_related_user=self.request.user)
+        if self.request and self.request.user and self.request.user.is_superuser:
+          serializer.save(file_related_user=self.request.user)
+        else:
+          serializer.save(file_related_user=self.request.user, active_flag=False, is_new=True)
 
     @list_route(methods=['post'])
     def upload_base64(self, request):
