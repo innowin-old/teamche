@@ -106,14 +106,14 @@ class ProductSerializer(BaseSerializer):
             model.related_parent_id = instance.id
             model.save()
             # Set new price
-            if model.price != instance.price:
+            """ if instance.price != validated_data.get('price', instance.price):
                 price_instance = ProductPrice()
                 if instance.related_parent != None:
                     price_instance.product_price_related_product = instance.related_parent
                 else:
                     price_instance.product_price_related_product = instance
-                price_instance.amount = instance.price
-                price_instance.save()
+                price_instance.amount = validated_data.get('price', instance.price)
+                price_instance.save() """
 
             return model
 
@@ -163,6 +163,28 @@ class ProductAdminSerializer(BaseSerializer):
         instance.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
         instance.made_in_iran = validated_data.get('made_in_iran', instance.made_in_iran)
         instance.save()
+
+        print(validated_data)
+
+        if instance.price != validated_data.get('price', instance.price):
+            print("OK")
+            price_instance = ProductPrice()
+            if instance.related_parent != None:
+                price_instance.product_price_related_product = instance.related_parent
+            else:
+                price_instance.product_price_related_product = instance
+            price_instance.amount = validated_data.get('price', instance.price)
+            price_instance.save()
+
+        if instance.discount.value != validated_data.get('discount', instance.discount):
+            discount_instance = Discount()
+            if instance.related_parent != None:
+                discount_instance.discount_related_parent = instance.related_parent
+            else:
+                discount_instance.discount_related_parent = instance
+            discount_instance.discount_value = validated_data.get('discount', instance.discount.value)
+            discount_instance.save()
+
         return instance
 
 
