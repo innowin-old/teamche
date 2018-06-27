@@ -53,7 +53,7 @@ class StoreSerializer(BaseSerializer):
     store_related_category = StoreCategorySerializer()
     class Meta:
         model = Store
-        fields = ['id', 'title', 'latitude', 'longitude', 'store_related_category']
+        fields = ['id', 'title', 'latitude', 'longitude', 'store_related_category', 'visibility_flag']
 
 
 class ProductListSerializer(BaseSerializer):
