@@ -40,7 +40,7 @@ class Store(Base):
     @property
     def images(self):
         images = []
-        files = File.objects.filter(file_related_parent=self)
+        files = File.objects.filter(file_related_parent=self, active_flag=True)
         for file in files:
             data = {'link': file.file_link}
             images.append(data)
