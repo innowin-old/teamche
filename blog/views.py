@@ -41,6 +41,7 @@ class PostViewSet(BaseViewSet):
     @list_route(methods=['get'])
     def update_confirmation(self, request):
         instances = Post.objects.exclude(related_parent=None).filter(active_flag=False, delete_flag=False)
+        instances = instances.filter(related_parent__delete_flag=False)
         serializer = PostSerializer(instances, many=True)
         return Response(serializer.data)
 
