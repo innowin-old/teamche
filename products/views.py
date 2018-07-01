@@ -134,9 +134,9 @@ class ProductViewSet(BaseViewSet):
         return Response(serializer.data)
 
     @detail_route(methods=['post'])
-    def accept_update(self, request, pk=None):
+    def accept(self, request, pk=None):
         update_instance = self.get_object()
-        if update_instance.delete_flag == False:
+        if update_instance.related_parent != None and update_instance.delete_flag = False:
             instance = Product.objects.filter(id=update_instance.related_parent_id)[0]
             instance.title = update_instance.title
             instance.description = update_instance.description
@@ -148,18 +148,32 @@ class ProductViewSet(BaseViewSet):
             instance.save()
             update_instance.delete_flag = True
             update_instance.save()
-            serializer = ProductSerializer(instance)
-            return Response(serializer.data)
         else:
-            return Response({'status': 'Update request not found'})
+            update_instance.active_flag = True
+            update_instance.save()
+            instance = update_instance
+        # Save price
+        price_instance = ProductPrice.objects.filter(product_price_related_product=instance)
+        price_instance = price_instance[price_instance.count() - 1]
+        price_instance.active_flag = True
+        price_instance.is_new = False
+        price_instance.save()
+        # Save discount
+        discount_instance = Discount.objects.filter(discount_related_parent=instance)
+        discount_instance = discount_instance[discount_instance.count() - 1]
+        discount_instance.active_flag = True
+        discount_instance.is_new = False
+        discount_instance.save()
+        # Return serializer data
+        serializer = ProductSerializer(instance)
+        return Response(serializer.data)
 
     @detail_route(methods=['post'])
-    def deny_update(self, request, pk=None):
-        update_instance = self.get_object()
-        if update_instance.related_parent != None:
-            update_instance.delete_flag = True
-            update_instance.save()
-            return Response({'status': 'Update request denied'})
+    def deny(self, request, pk=None):
+        instance = self.get_object()
+        instance.delete_flag = True
+        instance.save()
+        return Response({'status': 'Store Denied.'})
 
 
 class ProductPriceViewSet(BaseViewSet):
