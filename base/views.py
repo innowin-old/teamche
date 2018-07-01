@@ -151,7 +151,7 @@ class CommentViewSet(BaseViewSet):
 
 
 class RateViewSet(BaseViewSet):
-    filter_fields = ['title', 'value', 'rate_related_parent']
+    filter_fields = ['title', 'value', 'rate_related_parent', 'rate_related_user']
 
     def get_queryset(self):
         queryset = Rate.objects.filter(delete_flag=False)
