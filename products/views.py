@@ -136,7 +136,7 @@ class ProductViewSet(BaseViewSet):
     @detail_route(methods=['post'])
     def accept(self, request, pk=None):
         update_instance = self.get_object()
-        if update_instance.related_parent != None and update_instance.delete_flag = False:
+        if update_instance.related_parent != None and update_instance.delete_flag == False:
             instance = Product.objects.filter(id=update_instance.related_parent_id)[0]
             instance.title = update_instance.title
             instance.description = update_instance.description
