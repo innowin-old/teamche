@@ -265,7 +265,7 @@ class FileViewSet(BaseViewSet):
     @detail_route(methods=['post'])
     def accept(self, request, pk=None):
         instance = self.get_object()
-        instance.acitve_flag = True
+        instance.active_flag = True
         instance.is_new = False
         instance.save()
         serializer = FileSerializer(instance)
