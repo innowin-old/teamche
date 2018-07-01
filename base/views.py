@@ -108,7 +108,10 @@ class CommentViewSet(BaseViewSet):
         return CommentSerializer
 
     def perform_create(self, serializer):
-        serializer.save(comment_related_user=self.request.user)
+        if self.request and self.request.user and self.request.user.is_superuser:
+            serializer.save(comment_related_user=self.request.user)
+        else:
+            serializer.save(comment_related_user=self.request.user, is_new=True, active_flag=False, delete_flag=False)
 
     @list_route(methods=['get'])
     def create_confirmation(self, request):
