@@ -65,7 +65,7 @@ class ProductListSerializer(BaseSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'title', 'description', 'brand', 'made_in_iran', 'product_related_store', 'product_related_category', 'images', 'discount', 'price', 'active_flag', 'visibility_flag']
+        fields = ['id', 'title', 'description', 'brand', 'product_related_store', 'product_related_category', 'images', 'discount', 'price', 'active_flag', 'visibility_flag']
 
 
 class ProductSerializer(BaseSerializer):
