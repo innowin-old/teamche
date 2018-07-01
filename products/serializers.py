@@ -102,6 +102,7 @@ class ProductSerializer(BaseSerializer):
             model.brand = validated_data.get('brand', instance.brand)
             model.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
             model.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
+            model.made_in_iran = True
             model.related_parent_id = instance.id
             model.save()
             # Set new price
@@ -160,6 +161,7 @@ class ProductAdminSerializer(BaseSerializer):
         instance.brand = validated_data.get('brand', instance.brand)
         instance.product_related_category = validated_data.get('product_related_category', instance.product_related_category)
         instance.product_related_user = validated_data.get('product_related_user', instance.product_related_user)
+        instance.made_in_iran = True
         instance.save()
 
         print(validated_data)
@@ -205,6 +207,7 @@ class ProductPriceSerializer(BaseSerializer):
             product_update_instance.product_related_store = obj.product_price_related_product.product_related_store
             product_update_instance.product_related_category = obj.product_price_related_product.product_related_category
             product_update_instance.related_parent = obj.product_price_related_product
+            product_update_instance.made_in_iran = True
             product_update_instance.save()
         return obj
 
