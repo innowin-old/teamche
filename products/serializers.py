@@ -196,6 +196,20 @@ class ProductPriceSerializer(BaseSerializer):
           'product_price_related_user': { 'read_only': True }
         }
 
+    def create(self, validated_data):
+        obj = ProductPrice.objects.create(**validated_data)
+        obj.save()
+        if Product.objects.filter(related_parent=obj.product_price_related_product, active_flag=True, delete_flag=False).count() == 0:
+            product_update_instance = Product()
+            product_update_instance.title = obj.product_price_related_product.title
+            product_update_instance.description = obj.product_price_related_product.description
+            product_update_instance.brand = obj.product_price_related_product.brand
+            product_update_instance.product_related_store = obj.product_price_related_product.product_related_store
+            product_update_instance.product_related_category = obj.product_price_related_product.product_related_category
+            product_update_instance.related_parent = obj.product_price_related_product
+            product_update_instance.save()
+        return obj
+
 
 class ProductPriceAdminSerializer(BaseSerializer):
     class Meta:
