@@ -208,6 +208,7 @@ class ProductPriceSerializer(BaseSerializer):
             product_update_instance.product_related_category = obj.product_price_related_product.product_related_category
             product_update_instance.related_parent = obj.product_price_related_product
             product_update_instance.made_in_iran = True
+            product_update_instance.product_related_user = obj.product_price_related_product.product_related_user
             product_update_instance.save()
         return obj
 
