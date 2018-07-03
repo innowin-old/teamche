@@ -149,6 +149,7 @@ class ProductViewSet(BaseViewSet):
             instance.product_related_category = update_instance.product_related_category
             instance.related_parent = None
             instance.active_flag = True
+            instance.is_new = False
             instance.save()
             update_instance.delete_flag = True
             update_instance.save()
