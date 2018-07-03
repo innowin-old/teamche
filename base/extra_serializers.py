@@ -23,7 +23,7 @@ class DiscountSerializer(BaseSerializer):
         if Product.objects.filter(id=obj.discount_related_parent_id).count() > 0:
             related_product_instance = Product.objects.filter(id=obj.discount_related_parent_id)[0]
             if Product.objects.filter(related_parent=obj.discount_related_parent, active_flag=True, delete_flag=False).count() == 0:
-                product_instance = Product.objects.filter(id=obj.discount_realted_parent_id)[0]
+                product_instance = Product.objects.filter(id=obj.discount_related_parent_id)[0]
                 product_update_instance = Product()
                 product_update_instance.title = product_instance.title
                 product_update_instance.description = product_instance.description
