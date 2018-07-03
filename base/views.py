@@ -27,13 +27,13 @@ from .serializers import (
     RateSerializer,
     FavoriteSerializer,
     FavoriteListSerializer,
-    DiscountSerializer,
     ViewModelSerializer,
     ReportSerializer,
     FileSerializer,
     SliderSerializer,
     TopFilterSerializer
 )
+from .extra_serializers import DiscountSerializer
 from users.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
