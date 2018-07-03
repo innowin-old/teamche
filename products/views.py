@@ -155,6 +155,7 @@ class ProductViewSet(BaseViewSet):
             update_instance.save()
         else:
             update_instance.active_flag = True
+            update_instance.is_new = False
             update_instance.save()
             instance = update_instance
         # Save price
