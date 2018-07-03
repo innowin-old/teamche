@@ -17,6 +17,10 @@ from .models import (
   ProductOffer
 )
 
+from base.models import (
+  Discount
+)
+
 from .serializers import (
   ProductCategorySerializer,
   ProductCategoryAdminSerializer,
