@@ -118,15 +118,15 @@ class StoreViewSet(BaseViewSet):
         instance = self.get_object()
         if instance.related_parent != None and instance.delete_flag == False:
             update_instance = Store.objects.filter(id=instance.related_parent_id)[0]
-            update_instance.title = update_instance.title
-            update_instance.description = update_instance.description
-            update_instance.store_related_category = update_instance.store_related_category
-            update_instance.store_related_owner = update_instance.store_related_owner
-            update_instance.phone_number = update_instance.phone_number
-            update_instance.latitude = update_instance.latitude
-            update_instance.longitude = update_instance.longitude
-            update_instance.address = update_instance.address
-            update_instance.related_logo = update_instance.related_logo
+            update_instance.title = instance.title
+            update_instance.description = instance.description
+            update_instance.store_related_category = instance.store_related_category
+            update_instance.store_related_owner = instance.store_related_owner
+            update_instance.phone_number = instance.phone_number
+            update_instance.latitude = instance.latitude
+            update_instance.longitude = instance.longitude
+            update_instance.address = instance.address
+            update_instance.related_logo = instance.related_logo
             update_instance.related_parent = None
             update_instance.active_flag = True
             update_instance.save()
