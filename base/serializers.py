@@ -15,6 +15,7 @@ from .models import (
         Slider,
         TopFilter
     )
+from products.models import Product
 from stores.models import Store
 from users.models import User
 
