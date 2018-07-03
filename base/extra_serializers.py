@@ -33,5 +33,6 @@ class DiscountSerializer(BaseSerializer):
                 product_update_instance.related_parent = product_instance
                 product_update_instance.product_related_user = related_product_instance.product_related_user
                 product_update_instance.made_in_iran = True
+                product_update_instance.is_new = True
                 product_update_instance.save()
         return obj

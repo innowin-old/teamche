@@ -199,7 +199,7 @@ class ProductPriceSerializer(BaseSerializer):
     def create(self, validated_data):
         obj = ProductPrice.objects.create(**validated_data)
         obj.save()
-        if Product.objects.filter(related_parent=obj.product_price_related_product, active_flag=True, delete_flag=False).count() == 0:
+        if Product.objects.filter(related_parent=obj.product_price_related_product, is_new=True, delete_flag=False).count() == 0:
             product_update_instance = Product()
             product_update_instance.title = obj.product_price_related_product.title
             product_update_instance.description = obj.product_price_related_product.description
@@ -209,6 +209,7 @@ class ProductPriceSerializer(BaseSerializer):
             product_update_instance.related_parent = obj.product_price_related_product
             product_update_instance.made_in_iran = True
             product_update_instance.product_related_user = obj.product_price_related_product.product_related_user
+            product_update_instance.is_new = True
             product_update_instance.save()
         return obj
 
