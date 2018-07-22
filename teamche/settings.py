@@ -106,8 +106,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'teamche',
         'USER': 'postgres',
-        'PASSWORD': 'D@nesh2017',
-        'HOST': '89.42.210.20',
+        'PASSWORD': 'D@nesh2018',
+        'HOST': '185.105.239.118',
         'PORT': ''
     }
 }
