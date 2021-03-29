@@ -24,7 +24,7 @@ packaging==17.1
 phonenumberslite==8.9.3
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
-Pygments==2.2.0
+Pygments==2.7.4
 PyJWT==1.6.1
 pyparsing==2.2.0
 python-memcached==1.59
