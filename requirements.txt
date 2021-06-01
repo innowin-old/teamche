@@ -36,4 +36,4 @@ Sphinx==1.7.2
 sphinxcontrib-websupport==1.0.1
 typing==3.6.4
 uritemplate==3.0.0
-urllib3==1.22
+urllib3==1.26.5
